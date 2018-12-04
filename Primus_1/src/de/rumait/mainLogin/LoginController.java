@@ -113,7 +113,7 @@ public class LoginController implements Initializable{
 		
 		mainWindow.setScene(scene);
 		mainWindow.setResizable(false);
-		mainWindow.setTitle("Dashboard ParcelMule-Center");
+		mainWindow.setTitle("Dashboard Center");
 		mainWindow.show();
 		
 	}
