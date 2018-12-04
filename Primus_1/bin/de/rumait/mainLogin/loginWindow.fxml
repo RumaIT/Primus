@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.PerspectiveTransform?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="520.0" style="-fx-background-color: #F0F8FF#F0F8FF;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.rumait.mainLogin.LoginController">
+   <children>
+      <JFXButton fx:id="loginButton" layoutX="225.0" layoutY="376.0" onAction="#loginPressed" prefHeight="34.0" prefWidth="72.0" ripplerFill="RED" style="-fx-background-color: #75A3E7#75A3E7;" text="Login">
+         <effect>
+            <PerspectiveTransform />
+         </effect>
+         <font>
+            <Font name="Arial Bold" size="14.0" />
+         </font>
+      </JFXButton>
+      <Label layoutX="175.0" layoutY="14.0" prefHeight="34.0" prefWidth="170.0" text="Parcel-Mule Center" textFill="#fffbfb">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <JFXTextField fx:id="userField" focusColor="#2700ff" layoutX="161.0" layoutY="237.0" prefHeight="27.0" prefWidth="199.0" promptText="Benutzername" unFocusColor="BLACK" />
+      <JFXPasswordField fx:id="passField" focusColor="#2700ff" layoutX="161.0" layoutY="296.0" onKeyReleased="#passwordKeyReleased" prefHeight="27.0" prefWidth="199.0" promptText="Passwort" unFocusColor="BLACK" />
+      <Label layoutX="161.0" layoutY="35.0" text="ParcelMule Center">
+         <font>
+            <Font name="Arial" size="24.0" />
+         </font>
+      </Label>
+      <Circle fx:id="statusCircle" layoutX="140.0" layoutY="474.0" radius="7.0" smooth="false" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+      <Label layoutX="14.0" layoutY="465.0" text="Datenbankstatus: " />
+      <ImageView fitHeight="147.0" fitWidth="150.0" layoutX="186.0" layoutY="62.0">
+         <image>
+            <Image url="@../../../../../../../Downloads/724package_100522.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>
