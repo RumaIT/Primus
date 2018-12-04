@@ -17,7 +17,7 @@ public class PopUpWindow {
 		VBox root = new VBox(3);
 		Scene scene = new Scene(root,400,200);
 		
-		Button ok = new Button("Bestätigen");
+		Button ok = new Button("Klick mich");
 		Label label = new Label(message);
 		
 		ok.setOnAction(new EventHandler<ActionEvent>() {
