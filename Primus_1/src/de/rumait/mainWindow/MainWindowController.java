@@ -7,7 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.*;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 public class MainWindowController {
@@ -20,24 +20,26 @@ public class MainWindowController {
 	private JFXButton shopButton;
 	private JFXButton speditionButton;
 	private JFXButton paketeButton;
+	private Label showUserLabel;
+	private JFXButton btnAusloggen;
 	
 	private JFXButton logoutButton;
 	//---------------------------------------------------------------------
 	
 	
-	//-----Methode ShopFensterOeffnen wird nach Klick ausgeführt------------
+	//-----Methode ShopFensterOeffnen wird nach Klick ausgefï¿½hrt------------
 	public void shopPressed(ActionEvent event) throws Exception {
 		shopFensterOeffnen();
 	}
 
 	
 	
-	//----Methode SpeditoinFensterOeffnen wird nach Klick ausgeführt--------
+	//----Methode SpeditoinFensterOeffnen wird nach Klick ausgefï¿½hrt--------
 	public void speditionPressed(ActionEvent event) throws Exception {
 		speditionFensterOeffnen();
 	}
 	
-	//----Methode PaketeFensterOeffnen wird nach Klick ausgeführt--------
+	//----Methode PaketeFensterOeffnen wird nach Klick ausgefï¿½hrt--------
 	public void paketePressed(ActionEvent event) throws Exception {
 		paketeFensterOeffnen();
 	}
@@ -46,11 +48,11 @@ public class MainWindowController {
 	
 	
 	
-	//-------------Methoden: Fenster öffnen-----------------------------
+	//-------------Methoden: Fenster ï¿½ffnen-----------------------------
 	//-------------Shop, Spedition, Pakete------------------------------
 	
 	
-	//-------Shop Fenster wird geöffnet---------------------------------
+	//-------Shop Fenster wird geï¿½ffnet---------------------------------
 	public void shopFensterOeffnen() {
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/de/rumait/shop/mainShopWindow.fxml"));
@@ -59,12 +61,12 @@ public class MainWindowController {
 			shopStage.setScene(new Scene(root1));
 			shopStage.show();
 		} catch (Exception e) {
-			System.out.println("Shop: Fenster konnte nicht geöffnet werden: " +e);
+			System.out.println("Shop: Fenster konnte nicht geï¿½ffnet werden: " +e);
 		}
 
 	}
 	
-	//-------Spedition Fenster wird geöffnet----------------------------
+	//-------Spedition Fenster wird geï¿½ffnet----------------------------
 	public void speditionFensterOeffnen() {
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/de/rumait/spedition/mainSpeditionWindow.fxml"));
@@ -73,12 +75,12 @@ public class MainWindowController {
 			speditionStage.setScene(new Scene(root1));
 			speditionStage.show();
 		} catch (Exception e) {
-			System.out.println("Spedition: Fenster konnte nicht geöffnet werden: " +e);
+			System.out.println("Spedition: Fenster konnte nicht geï¿½ffnet werden: " +e);
 		}
 
 	}
 	
-	//-------Pakete Fenster wird geöffnet----------------------------
+	//-------Pakete Fenster wird geï¿½ffnet----------------------------
 	public void paketeFensterOeffnen() {
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/de/rumait/pakete/mainPaketeWindow.fxml"));
@@ -87,7 +89,7 @@ public class MainWindowController {
 			paketeStage.setScene(new Scene(root1));
 			paketeStage.show();
 		} catch (Exception e) {
-			System.out.println("Pakete: Fenster konnte nicht geöffnet werden: " +e);
+			System.out.println("Pakete: Fenster konnte nicht geï¿½ffnet werden: " +e);
 		}
 
 	}
