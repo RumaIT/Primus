@@ -1,17 +1,17 @@
 package de.rumait.databse;
 
 import java.sql.Connection;
+
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-import com.mysql.cj.protocol.Resultset;
 
 
 public class Database {
 	
-	public static final  String DATABASE_NAME = "k85506_primus";
+	public static final String DATABASE_NAME = "k85506_primus";
 	public static final String IPADRESS = "46.38.249.185:3306/";		//Public IP von Hosting 
 	public static final String CONNECTION_STRING = "jdbc:mysql://"+IPADRESS+DATABASE_NAME;
 	

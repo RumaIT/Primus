@@ -1,8 +1,14 @@
 package de.rumait.mainWindow;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
+
 import com.jfoenix.controls.JFXButton;
 
 import de.rumait.databse.Database;
+import de.rumait.mainLogin.LoginController;
+import de.rumait.mainLogin.LoginMain;
 import javafx.event.ActionEvent;
 import javafx.fxml.*;
 import javafx.scene.Parent;
@@ -10,20 +16,26 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
-public class MainWindowController {
+public class MainWindowController implements Initializable {
 
 	Database database = new Database();
 	
 	
 	//------Buttons werden erstellt-----------------------------------------
 	@FXML
-	private JFXButton shopButton;
-	private JFXButton speditionButton;
-	private JFXButton paketeButton;
-	private Label showUserLabel;
-	private JFXButton btnAusloggen;
-	
-	private JFXButton logoutButton;
+    private Label showUserLabel;
+
+    @FXML
+    private JFXButton btnAusloggen;
+
+    @FXML
+    private JFXButton shopButton;
+
+    @FXML
+    private JFXButton speditionButton;
+
+    @FXML
+    private JFXButton paketeButton;
 	//---------------------------------------------------------------------
 	
 	
@@ -43,6 +55,19 @@ public class MainWindowController {
 	public void paketePressed(ActionEvent event) throws Exception {
 		paketeFensterOeffnen();
 	}
+	//---Methode Ausloggen und LoginFenster starten----------------------
+	@FXML
+    public void btnAusloggenPressed(ActionEvent event) throws IOException {
+		
+		Stage openStage = (Stage) shopButton.getScene().getWindow();
+		openStage.close();
+		
+		LoginMain loginWindow = new LoginMain();
+		loginWindow.Loginstarten();
+
+    }
+	
+	
 	
 	
 	
@@ -92,6 +117,15 @@ public class MainWindowController {
 			System.out.println("Pakete: Fenster konnte nicht ge�ffnet werden: " +e);
 		}
 
+	}
+
+
+//---------initialize: Füllt das Label mit dem Benutzten der sich eingeloggt hat---------
+	@Override
+	public void initialize(URL arg0, ResourceBundle arg1) {
+		
+		showUserLabel.setText(LoginController.username);
+		
 	}
 	
 	

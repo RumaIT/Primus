@@ -1,4 +1,6 @@
 package de.rumait.mainLogin;
+import java.io.IOException;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -16,16 +18,22 @@ public class LoginMain extends Application {
 		
 	
 			
-			Parent root = FXMLLoader.load(getClass().getResource("loginWindow.fxml"));
-			Scene scene = new Scene(root);
-			
-			
-			stage.setScene(scene);
-			stage.show();
+			Loginstarten();
 			
 		
 
 
 }
+	
+	public void Loginstarten() throws IOException {
+		
+		Parent root = FXMLLoader.load(getClass().getResource("loginWindow.fxml"));
+		Scene scene = new Scene(root);
+		
+		Stage stage = new Stage();
+		
+		stage.setScene(scene);
+		stage.show();
+	}
 	
 }

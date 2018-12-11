@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import com.sun.tools.sjavac.comp.dependencies.PublicApiCollector;
 
 import de.rumait.databse.Database;
 import de.rumait.popUpWindow.PopUpWindow;
@@ -37,18 +38,27 @@ public class LoginController implements Initializable{
     @FXML
     private Circle statusCircle;
     
+    public static String username;
+    
+   
+    
+    
     
     //Action Methode für Login. Benutzt die userLogin Methode von Database 
     @FXML
     void loginPressed(ActionEvent event) throws Exception {
     	
-    	String username = userField.getText();
+    	username = userField.getText();
     	String password = passField.getText();
+    	
+    	
+    	
     	
     	if(database.userLogin(username, password)) {
     		
     		startMainWindow();
     		System.out.println("Login erfolgreich");
+    		
     		
     	}else {
     		System.out.println("Login fehlgeschlagen");
@@ -117,7 +127,18 @@ public class LoginController implements Initializable{
 		mainWindow.show();
 		
 	}
+	
+	
+	
 
+	
+	
+
+	
+	
+
+
+	
 	
 
 	
