@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
+import com.sun.source.tree.ParenthesizedTree;
 
 import de.rumait.databse.Database;
 import de.rumait.mainLogin.LoginController;
@@ -14,6 +15,7 @@ import javafx.fxml.*;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 public class MainWindowController implements Initializable {
@@ -36,12 +38,22 @@ public class MainWindowController implements Initializable {
 
     @FXML
     private JFXButton paketeButton;
+    @FXML
+    private AnchorPane rootPane;
 	//---------------------------------------------------------------------
 	
 	
 	//-----Methode ShopFensterOeffnen wird nach Klick ausgef�hrt------------
 	public void shopPressed(ActionEvent event) throws Exception {
-		shopFensterOeffnen();
+		
+		//shopFensterOeffnen();
+		
+		
+		AnchorPane sceneShopPressed = FXMLLoader.load(getClass().getResource("/de/rumait/shop/shopPressed.fxml"));
+		
+		rootPane.getChildren().setAll(sceneShopPressed);
+		
+	
 	}
 
 	

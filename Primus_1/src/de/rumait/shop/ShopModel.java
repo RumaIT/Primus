@@ -31,16 +31,19 @@ public class ShopModel {
 	
 	
 	public void shopMemberLoeschen(Statement statement, String id) {
-		String sql1 = "SELECT "
-		String sql ="DELETE FROM Shop WHERE idShop='"+id+"')";
+		
+		//String sql1 ="SELECT * FROM Shop";
+		
+		String sql ="DELETE FROM Shop WHERE idShop='"+id+"'";
 		
 		
-		System.out.println("Fehler1");
+		
 		try {
 			
+		//	statement.execute(sql1);
 			statement.execute(sql);
 			
-			System.out.println("Fehler2");
+			System.out.println("User deleted!");
 
 		} catch (Exception e) {
 			System.out.println(e.getStackTrace());
