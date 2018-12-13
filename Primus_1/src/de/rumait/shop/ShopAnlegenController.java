@@ -37,6 +37,9 @@ public class ShopAnlegenController {
     
     ShopModel shopModel = new ShopModel();
     Database db = new Database();
+    
+    
+    
 
     @FXML
     void btnShopAnlegenPressed(ActionEvent event) {
@@ -52,8 +55,11 @@ public class ShopAnlegenController {
     	
     	if(db.checkConnection() && (passwortConfirm.equals(passwort))) {
     		
-        	shopModel.createShopMember(db.getStatement(), ort, plz, benutzername, passwort, shopName, strasse, hausnummer);
-
+        	
+    		shopModel.createShopMember(db.getStatement(), ort, plz, benutzername, passwort, shopName, strasse, hausnummer);
+        	
+    		
+        	
     	}else {
     		System.out.println("Datenbank Verbindung unterbrochen");
     	}

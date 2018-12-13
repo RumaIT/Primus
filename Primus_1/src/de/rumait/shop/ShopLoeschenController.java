@@ -25,6 +25,8 @@ public class ShopLoeschenController {
 	    		
 		    	shopModel.shopMemberLoeschen(db.getStatement(), shopID);
 
+		    	ShopController shopController = new ShopController();
+		    	shopController.getShopMembersFromDatabase();
 	    	}else {
 	    		System.out.println("DB Verbindung fehlgeschlagen");
 	    	}

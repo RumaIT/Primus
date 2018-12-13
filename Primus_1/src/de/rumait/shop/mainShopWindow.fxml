@@ -2,6 +2,8 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -69,13 +71,22 @@
             <Font name="Arimo" size="18.0" />
          </font>
       </JFXButton>
-      <Label layoutX="591.0" layoutY="225.0" prefHeight="64.0" prefWidth="206.0" text="Stadtionen">
+      <Label layoutX="591.0" layoutY="225.0" prefHeight="64.0" prefWidth="206.0" text="Stationen">
          <font>
             <Font name="System Bold" size="36.0" />
          </font>
       </Label>
-      <JFXButton fx:id="btnNewShop" layoutX="381.0" layoutY="330.0" onAction="#btnNewShopPressed" prefHeight="27.0" prefWidth="187.0" style="-fx-background-color: Orange;" text="Neue Stadion anlegen" />
-      <JFXButton layoutX="394.0" layoutY="399.0" style="-fx-background-color: Orange;" text="Stationen bearbeiten" />
-      <JFXButton fx:id="btnStationenLoeschen" layoutX="409.0" layoutY="472.0" onAction="#btnStationenLoschenPressed" style="-fx-background-color: Orange;" text="Stadionen löschen" />
+      <JFXButton fx:id="btnNewShop" layoutX="318.0" layoutY="355.0" onAction="#btnNewShopPressed" prefHeight="27.0" prefWidth="187.0" style="-fx-background-color: Orange;" text="Neue Station anlegen" />
+      <JFXButton layoutX="338.0" layoutY="487.0" style="-fx-background-color: Orange;" text="Stationen bearbeiten" />
+      <JFXButton fx:id="btnStationenLoeschen" layoutX="345.0" layoutY="606.0" onAction="#btnStationenLoschenPressed" style="-fx-background-color: Orange;" text="Stadionen löschen" />
+      <TableView fx:id="tableShop" layoutX="552.0" layoutY="318.0" prefHeight="397.0" prefWidth="735.0">
+        <columns>
+          <TableColumn fx:id="rowShopID" prefWidth="75.0" text="ShopID" />
+          <TableColumn fx:id="rowShopName" prefWidth="115.0" text="ShopName" />
+            <TableColumn fx:id="rowStrasse" prefWidth="166.0" text="Straße" />
+            <TableColumn fx:id="rowBenutzername" prefWidth="154.0" text="Benutzername" />
+        </columns>
+      </TableView>
+      <JFXButton fx:id="btnRefresh" layoutX="1161.0" layoutY="269.0" onAction="#btnRefreshPressed" style="-fx-background-color: Lightblue;" text="Aktualisieren" />
    </children>
 </AnchorPane>

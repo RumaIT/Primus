@@ -2,7 +2,31 @@ package de.rumait.shop;
 
 import java.sql.Statement;
 
+
+
 public class ShopModel {
+	
+	
+	//Attribute für ShopAnzeige Konstruktor 
+	private String idShop, shopName, strasse, benutzername;
+	
+	
+	//Standart Konstruktor 
+	public ShopModel() {
+		
+	}
+	
+	//------Konstruktor für die ShopAnzeige im TableView (ObservableList)
+	public ShopModel(String idShop, String shopName, String strasse, String benutzername) {
+		this.idShop = idShop;
+		this.shopName = shopName;
+		this.strasse = strasse;
+		this.benutzername = benutzername;
+	}
+	
+	
+	
+	
 	
 	public void createShopMember(Statement statement, String ort, String plz, String benutzername, String passwort, String shopName, String strasse, String hausnummer){
 		
@@ -47,12 +71,47 @@ public class ShopModel {
 
 		} catch (Exception e) {
 			System.out.println(e.getStackTrace());
-		}
-		
-		
-		
-		
+		}	
 	}
+	
+	
+	
+	
+	
+
+	public String getIdShop() {
+		return idShop;
+	}
+
+	public void setIdShop(String idShop) {
+		this.idShop = idShop;
+	}
+
+	public String getShopName() {
+		return shopName;
+	}
+
+	public void setShopName(String shopName) {
+		this.shopName = shopName;
+	}
+
+	public String getStrasse() {
+		return strasse;
+	}
+
+	public void setStrasse(String strasse) {
+		this.strasse = strasse;
+	}
+
+	public String getBenutzername() {
+		return benutzername;
+	}
+
+	public void setBenutzername(String benutzername) {
+		this.benutzername = benutzername;
+	}
+	
+	
 	
 	
 	
