@@ -58,7 +58,7 @@ public class UebersichtController implements Initializable {
 	public void shopPressed(ActionEvent event) throws Exception {
 		
 		
-		AnchorPane sceneShopPressed = FXMLLoader.load(getClass().getResource("/de/rumait/shop/shopPressed.fxml"));
+		AnchorPane sceneShopPressed = FXMLLoader.load(getClass().getResource("/de/rumait/shop/mainShopWindow.fxml"));
 		rootPane.getChildren().setAll(sceneShopPressed);
 		
 	}

@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="753.0" prefWidth="1312.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.rumait.shop.ShopController">
+<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="753.0" prefWidth="1312.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.rumait.uebersicht.UebersichtController">
    <children>
       <Pane prefHeight="212.0" prefWidth="1312.0" style="-fx-background-color: #FF3B3F;">
          <children>
@@ -49,7 +49,7 @@
             <Image url="@../../../../../../../Desktop/Programmieren/Primus/Design/Main/icons8-dashboard-48.png" />
          </image>
       </ImageView>
-      <JFXButton alignment="CENTER" contentDisplay="RIGHT" layoutX="30.0" layoutY="253.0" prefHeight="59.0" prefWidth="199.0" ripplerFill="#ff3b3f" style="-fx-background-color: #A7E7F8#A7E7F8;" text="Übersicht" textAlignment="RIGHT" textFill="#ff3b3f">
+      <JFXButton fx:id="btnUebersicht" alignment="CENTER" contentDisplay="RIGHT" layoutX="30.0" layoutY="253.0" onAction="#btnUebersichtPressed" prefHeight="59.0" prefWidth="199.0" ripplerFill="#ff3b3f" style="-fx-background-color: #A7E7F8#A7E7F8;" text="Übersicht" textAlignment="RIGHT" textFill="#ff3b3f">
          <font>
             <Font name="Arimo" size="18.0" />
          </font>
