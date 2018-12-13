@@ -1,11 +1,11 @@
 package de.rumait.mainWindow;
 
 import java.io.IOException;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
-import com.sun.source.tree.ParenthesizedTree;
 
 import de.rumait.databse.Database;
 import de.rumait.mainLogin.LoginController;
@@ -35,6 +35,8 @@ public class MainWindowController implements Initializable {
 
     @FXML
     private JFXButton speditionButton;
+    @FXML 
+    private JFXButton btnUebersicht;
 
     @FXML
     private JFXButton paketeButton;
@@ -42,30 +44,39 @@ public class MainWindowController implements Initializable {
     private AnchorPane rootPane;
 	//---------------------------------------------------------------------
 	
+    //---------------Methoden für die verschiedenen Fenster----------------------------
 	
 	//-----Methode ShopFensterOeffnen wird nach Klick ausgef�hrt------------
+    
+   public void btnUebersichtPressed(ActionEvent event) throws Exception {
+    	
+    	ubersichtWindowstarten();
+
+    }
+    
 	public void shopPressed(ActionEvent event) throws Exception {
 		
-		//shopFensterOeffnen();
 		
-		
-		AnchorPane sceneShopPressed = FXMLLoader.load(getClass().getResource("/de/rumait/shop/shopPressed.fxml"));
-		
+		AnchorPane sceneShopPressed = FXMLLoader.load(getClass().getResource("/de/rumait/shop/mainShopWindow.fxml"));
 		rootPane.getChildren().setAll(sceneShopPressed);
 		
-	
 	}
 
 	
-	
 	//----Methode SpeditoinFensterOeffnen wird nach Klick ausgef�hrt--------
 	public void speditionPressed(ActionEvent event) throws Exception {
-		speditionFensterOeffnen();
+		
+		AnchorPane sceneSpeditionPressed = FXMLLoader.load(getClass().getResource("/de/rumait/spedition/mainSpeditionWindow.fxml"));
+		rootPane.getChildren().setAll(sceneSpeditionPressed);
+		
 	}
 	
 	//----Methode PaketeFensterOeffnen wird nach Klick ausgef�hrt--------
 	public void paketePressed(ActionEvent event) throws Exception {
-		paketeFensterOeffnen();
+		
+		AnchorPane scenePaketePressed = FXMLLoader.load(getClass().getResource("/de/rumait/pakete/mainPaketeWindow.fxml"));
+		rootPane.getChildren().setAll(scenePaketePressed);
+		
 	}
 	//---Methode Ausloggen und LoginFenster starten----------------------
 	@FXML
@@ -78,11 +89,6 @@ public class MainWindowController implements Initializable {
 		loginWindow.Loginstarten();
 
     }
-	
-	
-	
-	
-	
 	
 	
 	//-------------Methoden: Fenster �ffnen-----------------------------
@@ -137,7 +143,17 @@ public class MainWindowController implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
 		showUserLabel.setText(LoginController.username);
+		try {
+			ubersichtWindowstarten();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
+	}
+	
+	public void ubersichtWindowstarten() throws Exception{
+		AnchorPane sceneUebersichtPressed = FXMLLoader.load(getClass().getResource("/de/rumait/uebersicht/mainUebersichtWindow.fxml"));
+		rootPane.getChildren().setAll(sceneUebersichtPressed);
 	}
 	
 	

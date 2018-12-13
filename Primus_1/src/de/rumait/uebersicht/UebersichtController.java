@@ -1,4 +1,4 @@
-package de.rumait.shop;
+package de.rumait.uebersicht;
 
 import java.io.IOException;
 
@@ -18,7 +18,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
-public class ShopController implements Initializable {
+public class UebersichtController implements Initializable {
 
 	Database database = new Database();
 	
@@ -42,12 +42,6 @@ public class ShopController implements Initializable {
     private JFXButton paketeButton;
     @FXML
     private AnchorPane rootPane;
-    @FXML
-    private JFXButton btnNewShop;
-    @FXML
-    private JFXButton btnStationenLoeschen;
-
-    
 	//---------------------------------------------------------------------
 	
     //---------------Methoden für die verschiedenen Fenster----------------------------
@@ -64,7 +58,7 @@ public class ShopController implements Initializable {
 	public void shopPressed(ActionEvent event) throws Exception {
 		
 		
-		AnchorPane sceneShopPressed = FXMLLoader.load(getClass().getResource("/de/rumait/shop/mainShopWindow.fxml"));
+		AnchorPane sceneShopPressed = FXMLLoader.load(getClass().getResource("/de/rumait/shop/shopPressed.fxml"));
 		rootPane.getChildren().setAll(sceneShopPressed);
 		
 	}
@@ -94,32 +88,6 @@ public class ShopController implements Initializable {
 		
 		LoginMain loginWindow = new LoginMain();
 		loginWindow.Loginstarten();
-
-    }
-	
-	@FXML
-    void btnNewShopPressed(ActionEvent event) throws Exception{
-
-		Stage mainWindow = new Stage();
-		Parent root = FXMLLoader.load(getClass().getResource("/de/rumait/shop/shopAnlegenWindow.fxml"));
-		Scene scene = new Scene(root);
-		
-		mainWindow.setScene(scene);
-		mainWindow.setResizable(false);
-		mainWindow.setTitle("Dashboard Center");
-		mainWindow.show();
-		
-    }
-	@FXML
-    void btnStationenLoschenPressed(ActionEvent event) throws Exception{
-		
-		Stage mainWindow = new Stage();
-		Parent root = FXMLLoader.load(getClass().getResource("/de/rumait/shop/shopLoeschenWindow.fxml"));
-		Scene scene = new Scene(root);
-		mainWindow.setScene(scene);
-		mainWindow.setResizable(false);
-		mainWindow.setTitle("Dashboard Center");
-		mainWindow.show();
 
     }
 	
