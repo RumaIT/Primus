@@ -2,13 +2,15 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="753.0" prefWidth="1312.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.rumait.shop.ShopController">
+<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="753.0" prefWidth="1312.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.rumait.spedition.SpeditionController">
    <children>
       <Pane prefHeight="212.0" prefWidth="1312.0" style="-fx-background-color: #FF3B3F;">
          <children>
@@ -74,5 +76,15 @@
             <Font name="System Bold" size="36.0" />
          </font>
       </Label>
+      <JFXButton fx:id="btnSpeditionAnlegen" layoutX="313.0" layoutY="373.0" onAction="#speditionAnlegenPressed" style="-fx-background-color: orange;" text="Spedition anlegen" />
+      <JFXButton fx:id="btnSpeditionLöschen" layoutX="313.0" layoutY="505.0" onAction="#speditionLöschenPressed" style="-fx-background-color: orange;" text="Spedition löschen" />
+      <TableView fx:id="tabelSpedition" layoutX="527.0" layoutY="355.0" prefHeight="264.0" prefWidth="680.0">
+        <columns>
+          <TableColumn fx:id="spedition" prefWidth="139.0" text="Spedition" />
+          <TableColumn fx:id="benutzername" prefWidth="129.0" text="Benutzername" />
+            <TableColumn fx:id="strasse" prefWidth="58.0" text="Strasse" />
+            <TableColumn fx:id="ort" prefWidth="76.0" text="Ort" />
+        </columns>
+      </TableView>
    </children>
 </AnchorPane>

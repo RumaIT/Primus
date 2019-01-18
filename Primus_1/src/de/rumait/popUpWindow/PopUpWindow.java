@@ -1,6 +1,9 @@
 package de.rumait.popUpWindow;
 
+import com.sun.jdi.Value;
+
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -36,6 +39,7 @@ public class PopUpWindow {
 		stage.setScene(scene);
 		stage.show();
 	}
+
 	
 
 }

@@ -11,10 +11,14 @@ import de.rumait.databse.Database;
 import de.rumait.mainLogin.LoginController;
 import de.rumait.mainLogin.LoginMain;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.*;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -42,9 +46,33 @@ public class SpeditionController implements Initializable {
     private JFXButton paketeButton;
     @FXML
     private AnchorPane rootPane;
+    
+    @FXML
+    private JFXButton btnSpeditionAnlegen;
+
+    @FXML
+    private JFXButton btnSpeditionLöschen;
+
+    @FXML
+    private TableView<SpeditionModel> tabelSpedition;
+
+    @FXML
+    private TableColumn<SpeditionModel, String> spedition;
+
+    @FXML
+    private TableColumn<SpeditionModel	, String> benutzername;
+
+    @FXML
+    private TableColumn<SpeditionModel, String> strasse;
+
+    @FXML
+    private TableColumn<SpeditionModel, String> ort;
+    
+    
 	//---------------------------------------------------------------------
 	
     //---------------Methoden für die verschiedenen Fenster----------------------------
+    
 	
 	//-----Methode ShopFensterOeffnen wird nach Klick ausgef�hrt------------
     
@@ -137,6 +165,43 @@ public class SpeditionController implements Initializable {
 		}
 
 	}
+	
+	
+	@FXML
+    void speditionAnlegenPressed(ActionEvent event) throws IOException {
+		
+		Stage mainWindow = new Stage();
+		Parent root = FXMLLoader.load(getClass().getResource("/de/rumait/spedition/speditionAnlegen.fxml"));
+		Scene scene = new Scene(root);
+		
+		mainWindow.setScene(scene);
+		mainWindow.setTitle("Spedition anlegen");
+		mainWindow.show();
+    }
+	
+	
+	@FXML
+	void speditionLöschenPressed(ActionEvent event) throws IOException {
+		
+		Stage mainWindow = new Stage();
+		Parent root = FXMLLoader.load(getClass().getResource("/de/rumait/spedition/speditionLoeschen.fxml"));
+		Scene scene = new Scene(root);
+		
+		mainWindow.setScene(scene);
+		mainWindow.setTitle("Spedition Löschen");
+		mainWindow.show();
+	    }
+	
+	
+	
+
+	
+	
+	
+
+	
+	
+	
 
 
 //---------initialize: Füllt das Label mit dem Benutzten der sich eingeloggt hat---------

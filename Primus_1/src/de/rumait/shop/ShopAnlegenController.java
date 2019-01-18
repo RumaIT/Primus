@@ -3,8 +3,10 @@ package de.rumait.shop;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import de.rumait.databse.Database;
+import de.rumait.popUpWindow.PopUpWindow;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.stage.Stage;
 
 public class ShopAnlegenController {
 	
@@ -37,6 +39,7 @@ public class ShopAnlegenController {
     
     ShopModel shopModel = new ShopModel();
     Database db = new Database();
+    ShopController sc = new ShopController();
     
     
     
@@ -57,11 +60,20 @@ public class ShopAnlegenController {
     		
         	
     		shopModel.createShopMember(db.getStatement(), ort, plz, benutzername, passwort, shopName, strasse, hausnummer);
+    		PopUpWindow.getPopUpWindow("Neue Station erfolgreich angelegt");
+    		
+    		//Fenster zum anlegen schliessen 
+    		
+    		Stage shopAnlegen = (Stage)btnShopAnlegen.getScene().getWindow();
+    		shopAnlegen.close();
+    		sc.getShopMembersFromDatabase();
+    		
         	
     		
         	
     	}else {
     		System.out.println("Datenbank Verbindung unterbrochen");
+    		PopUpWindow.getPopUpWindow("Passwort und Passwort bestätigen stimmt nicht überein");
     	}
     	
     	
