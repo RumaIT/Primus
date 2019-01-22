@@ -49,6 +49,8 @@ public class SpeditionAnlegenController {
 	    SpeditionModel model = new SpeditionModel();
 	    Database db = new Database();
 	    
+		
+	    
 	    
 
 	    @FXML
@@ -68,6 +70,8 @@ public class SpeditionAnlegenController {
 	    	model.createSpeditionsMember(db.getStatement(), ort, plz, benutzerName, passwort, SpeditionName, strasse, hausnummer);
 	    	
 	    	PopUpWindow.getPopUpWindow("Die Spedition wurde erfolgreich angelegt.");
+	    	
+	    	new SpeditionController().refreashTableView();
 	    	
 	    	Stage parent = (Stage) btnSpeditionAnlegen.getScene().getWindow();
 	    	parent.close();

@@ -3,6 +3,8 @@ package de.rumait.spedition;
 import java.io.IOException;
 
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.ResultSet;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
@@ -10,6 +12,8 @@ import com.jfoenix.controls.JFXButton;
 import de.rumait.databse.Database;
 import de.rumait.mainLogin.LoginController;
 import de.rumait.mainLogin.LoginMain;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.*;
@@ -19,6 +23,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -57,16 +62,23 @@ public class SpeditionController implements Initializable {
     private TableView<SpeditionModel> tabelSpedition;
 
     @FXML
-    private TableColumn<SpeditionModel, String> spedition;
+    private TableColumn<SpeditionModel, String> rowSpeditionsID;
 
     @FXML
-    private TableColumn<SpeditionModel	, String> benutzername;
+    private TableColumn<SpeditionModel	, String> rowBenutzerName;
 
     @FXML
-    private TableColumn<SpeditionModel, String> strasse;
+    private TableColumn<SpeditionModel, String> rowStrasse;
 
     @FXML
-    private TableColumn<SpeditionModel, String> ort;
+    private TableColumn<SpeditionModel, String> rowSpeditionsName;
+    
+    @FXML
+    private JFXButton btnRefreash;
+    
+    ObservableList<SpeditionModel> list = FXCollections.observableArrayList();
+    
+    
     
     
 	//---------------------------------------------------------------------
@@ -192,13 +204,56 @@ public class SpeditionController implements Initializable {
 		mainWindow.show();
 	    }
 	
+	@FXML
+    void btnRefreashPressed(ActionEvent event) {
+		
+		refreashTableView();
+
+    }
+	
 	
 	
 
 	
 	
+	//Methode um TAbleView mit Daten zu Füllen 
 	
-
+	
+	public void getDataFromDatabase() {
+		
+		try {
+			
+			if(database.checkConnection()) {
+				
+				Connection connection = database.getConnection();
+				ResultSet rSet = connection.createStatement().executeQuery("SELECT * from Spedition");
+				
+				while (rSet.next()) {
+					list.add(new SpeditionModel(rSet.getString("idSpedition"), rSet.getString("SpeditionsName"), rSet.getString("Benutzername"), rSet.getString("Strasse")));
+				}
+			rowSpeditionsID.setCellValueFactory(new PropertyValueFactory<>("spediID"));
+			rowSpeditionsName.setCellValueFactory(new PropertyValueFactory<>("spediName"));
+			rowBenutzerName.setCellValueFactory(new PropertyValueFactory<>("spediUserName"));
+			rowStrasse.setCellValueFactory(new PropertyValueFactory<>("spediStrasse"));
+			
+			
+			
+			tabelSpedition.setItems(list);	
+			
+		
+			
+			}
+		} catch (Exception e) {
+			System.out.println(e);
+			System.out.println("Fehler beim einfügen in die Liste");
+		}
+		
+	}
+	
+	public void refreashTableView() {
+		tabelSpedition.getItems().clear();
+		getDataFromDatabase();
+	}
 	
 	
 	
@@ -209,6 +264,7 @@ public class SpeditionController implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
 		showUserLabel.setText(LoginController.username);
+		refreashTableView();
 		
 	}
 	

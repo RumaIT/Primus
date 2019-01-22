@@ -43,9 +43,8 @@ public class ShopLoeschenController {
 		    		
 			    	shopModel.shopMemberLoeschen(db.getStatement(), shopID);
 
-			    	ShopController shopController = new ShopController();
-			    	shopController.getShopMembersFromDatabase();
-			    	
+			
+		
 			    	PopUpWindow.getPopUpWindow("Der User wurde erfolgreich gelöscht");
 			    	
 			    	Stage shopLoeschen = (Stage)btnShopLoeschen.getScene().getWindow();

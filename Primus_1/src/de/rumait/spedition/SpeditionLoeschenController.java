@@ -40,6 +40,7 @@ public class SpeditionLoeschenController{
     		
     		spmodel.speditionMemberLoeschen(db.getStatement(), id);
     		PopUpWindow.getPopUpWindow("Spedition erfolgreich gelöscht");
+    		new SpeditionController().refreashTableView();
     		Stage stage = (Stage) btnLoeschen.getScene().getWindow();
     		stage.close();
     	}

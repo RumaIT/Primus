@@ -80,11 +80,12 @@
       <JFXButton fx:id="btnSpeditionLöschen" layoutX="313.0" layoutY="505.0" onAction="#speditionLöschenPressed" style="-fx-background-color: orange;" text="Spedition löschen" />
       <TableView fx:id="tabelSpedition" layoutX="527.0" layoutY="355.0" prefHeight="264.0" prefWidth="680.0">
         <columns>
-          <TableColumn fx:id="spedition" prefWidth="139.0" text="Spedition" />
-          <TableColumn fx:id="benutzername" prefWidth="129.0" text="Benutzername" />
-            <TableColumn fx:id="strasse" prefWidth="58.0" text="Strasse" />
-            <TableColumn fx:id="ort" prefWidth="76.0" text="Ort" />
+          <TableColumn fx:id="rowSpeditionsID" prefWidth="139.0" text="SpeditionsID" />
+          <TableColumn fx:id="rowSpeditionsName" prefWidth="129.0" text="Speditionsname" />
+            <TableColumn fx:id="rowBenutzerName" prefWidth="137.0" text="Benutzername" />
+            <TableColumn fx:id="rowStrasse" minWidth="0.0" prefWidth="123.0" text="Strasse" />
         </columns>
       </TableView>
+      <JFXButton fx:id="btnRefreash" layoutX="1110.0" layoutY="288.0" onAction="#btnRefreashPressed" style="-fx-background-color: lightblue;" text="Aktualisieren" />
    </children>
 </AnchorPane>

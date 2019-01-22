@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
+import com.sun.tools.classfile.StackMapTable_attribute.verification_type_info;
 
 import de.rumait.databse.Database;
 import de.rumait.mainLogin.LoginController;
@@ -125,8 +126,8 @@ public class ShopController implements Initializable {
 	//-----Methode Btn Aktualisieren gedrückt
 	 @FXML
 	    void btnRefreshPressed(ActionEvent event) {
-
-		 getShopMembersFromDatabase();
+		 
+		 refreashTable();
 		 
 	    }
 
@@ -250,6 +251,12 @@ public class ShopController implements Initializable {
 		
 
 
+	}
+	
+	public void refreashTable() {
+		
+		tableShop.getItems().clear();
+		 getShopMembersFromDatabase();
 	}
 
 	// -------------------------------------------------------------------

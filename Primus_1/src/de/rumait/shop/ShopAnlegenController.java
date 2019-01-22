@@ -66,7 +66,7 @@ public class ShopAnlegenController {
     		
     		Stage shopAnlegen = (Stage)btnShopAnlegen.getScene().getWindow();
     		shopAnlegen.close();
-    		sc.getShopMembersFromDatabase();
+    		
     		
         	
     		
