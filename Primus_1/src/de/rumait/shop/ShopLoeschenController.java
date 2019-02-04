@@ -9,6 +9,7 @@ import de.rumait.databse.Database;
 import de.rumait.popUpWindow.PopUpWindow;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
@@ -24,6 +25,7 @@ public class ShopLoeschenController {
 	    
 	    ShopModel shopModel = new ShopModel();
 	    Database db = new Database();
+	    ShopController sc = new ShopController();
 	    
 
 	    @FXML
@@ -43,9 +45,11 @@ public class ShopLoeschenController {
 		    		
 			    	shopModel.shopMemberLoeschen(db.getStatement(), shopID);
 
-			
+			    	
 		
 			    	PopUpWindow.getPopUpWindow("Der User wurde erfolgreich gelöscht");
+			    	
+			    	sc.refreashTable();
 			    	
 			    	Stage shopLoeschen = (Stage)btnShopLoeschen.getScene().getWindow();
 			    	shopLoeschen.close();

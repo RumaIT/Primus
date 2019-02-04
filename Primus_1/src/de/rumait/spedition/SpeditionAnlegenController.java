@@ -71,7 +71,7 @@ public class SpeditionAnlegenController {
 	    	
 	    	PopUpWindow.getPopUpWindow("Die Spedition wurde erfolgreich angelegt.");
 	    	
-	    	new SpeditionController().refreashTableView();
+	    	
 	    	
 	    	Stage parent = (Stage) btnSpeditionAnlegen.getScene().getWindow();
 	    	parent.close();
