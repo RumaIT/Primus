@@ -5,8 +5,13 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXPasswordField;
+import com.jfoenix.controls.JFXTextField;
+import com.jfoenix.controls.JFXTreeTableView;
+
 import de.rumait.databse.Database;
 import de.rumait.mainLogin.LoginController;
 import de.rumait.mainLogin.LoginMain;
@@ -19,7 +24,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TreeItemPropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -29,36 +37,83 @@ public class ShopController implements Initializable {
 
 	// ------Buttons werden erstellt-----------------------------------------
 	@FXML
+	private AnchorPane rootPane;
+	@FXML
 	private Label showUserLabel;
 	@FXML
 	private JFXButton btnAusloggen;
+	@FXML
+	private JFXButton paketeButton;
+	@FXML
+	private JFXButton btnUebersicht;
 	@FXML
 	private JFXButton shopButton;
 	@FXML
 	private JFXButton speditionButton;
 	@FXML
-	private JFXButton btnUebersicht;
+	private JFXTextField tfStationIDSuchen;
 	@FXML
-	private JFXButton paketeButton;
+	private JFXTextField tfStationNameSuchen;
 	@FXML
-	private AnchorPane rootPane;
+	private JFXButton btnStationSuchen;
 	@FXML
-	private JFXButton btnNewShop;
+	private TableView<ShopModel> stationTable;
 	@FXML
-	private JFXButton btnStationenLoeschen;
+	private TableColumn<ShopModel, String> rowStationsID;
 	@FXML
-	private JFXButton btnRefresh;
+	private TableColumn<ShopModel, String> rowStationsName;
 	@FXML
-	private TableView<ShopModel> tableShop;
+	private TableColumn<ShopModel, String> rowBenutzername;
 	@FXML
-	private TableColumn<ShopModel, String> rowShopID;
-	@FXML
-	private TableColumn<ShopModel, String> rowShopName;
+	private TableColumn<ShopModel, String> rowPasswort;
 	@FXML
 	private TableColumn<ShopModel, String> rowStrasse;
 	@FXML
-	private TableColumn<ShopModel, String> rowBenutzername;
+	private TableColumn<ShopModel, String> rowPLZ;
+	@FXML
+	private TableColumn<ShopModel, String> rowOrt;
+	@FXML
+	private JFXButton btnAlleStationenSuchen;
+	@FXML
+	private JFXTextField tfShopNameChange;
+	@FXML
+	private Label lblStationIdShow;
+	@FXML
+	private JFXTextField tfBenutzernameChange;
+	@FXML
+	private JFXTextField tfPasswortChange;
+	@FXML
+	private JFXTextField tfStrasseChange;
+	@FXML
+	private JFXTextField tfPLZChange;
+	@FXML
+	private JFXTextField tfOrtChange;
+	@FXML
+	private JFXButton btnChange;
+	@FXML
+	private JFXTextField tfIdLoeschen;
+	@FXML
+	private JFXPasswordField tfPasswortAdminLoeschen;
+	@FXML
+	private JFXButton btnStationLoeschen;
+	@FXML
+	private JFXButton btnNeueStation;
+	@FXML
+	private JFXTextField tfShopName;
+	@FXML
+	private JFXTextField tfBenutzername;
+	@FXML
+	private JFXTextField tfPasswort;
+	@FXML
+	private JFXTextField tfStrasse;
+	@FXML
+	private JFXTextField tfPLZ;
+	@FXML
+	private JFXTextField tfOrt;
+
 	private ObservableList<ShopModel> list = FXCollections.observableArrayList();
+	private Database dbZugriff = new Database();
+	private ShopModel shopModel = new ShopModel();
 
 	// ---------------------------------------------------------------------
 
@@ -70,9 +125,8 @@ public class ShopController implements Initializable {
 	public void btnUebersichtPressed(ActionEvent event) throws Exception {
 
 		AnchorPane sceneUebersichtPressed = FXMLLoader
-				.load(getClass().getResource("/de/rumait/uebersicht/mainUebersichtWindow.fxml"));
+				.load(getClass().getResource("/de/rumait/mainWindow/mainWindows.fxml"));
 		rootPane.getChildren().setAll(sceneUebersichtPressed);
-
 	}
 
 	public void shopPressed(ActionEvent event) throws Exception {
@@ -112,84 +166,163 @@ public class ShopController implements Initializable {
 
 	}
 
-	// -----Methode Btn Aktualisieren gedrückt
-	@FXML
-	void btnRefreshPressed(ActionEvent event) {
-
-		refreashTable();
-
-	}
+//----------------------Methoden für Buttons ---------------------------------------------
 
 	@FXML
-	void btnNewShopPressed(ActionEvent event) throws Exception {
+	void btnAlleStationenSuchenPressed(ActionEvent event) throws SQLException {
 
-		Stage mainWindow = new Stage();
-		Parent root = FXMLLoader.load(getClass().getResource("/de/rumait/shop/shopAnlegenWindow.fxml"));
-		Scene scene = new Scene(root);
+		stationTable.getItems().clear();
 
-		mainWindow.setScene(scene);
-		mainWindow.setResizable(false);
-		mainWindow.setTitle("Dashboard Center");
-		mainWindow.show();
+		if (dbZugriff.checkConnection()) {
+			ResultSet abfrage = shopModel.getAllStations(dbZugriff.getStatement());
 
-	}
+			while (abfrage.next()) {
 
-	@FXML
-	void btnStationenLoschenPressed(ActionEvent event) throws Exception {
+				list.add(new ShopModel(abfrage.getString(1), abfrage.getString(2), abfrage.getString(3),
+						abfrage.getString(4), abfrage.getString(5), abfrage.getString(6), abfrage.getString(7)));
+			}
 
-		Stage mainWindow = new Stage();
-		Parent root = FXMLLoader.load(getClass().getResource("/de/rumait/shop/shopLoeschenWindow.fxml"));
-		Scene scene = new Scene(root);
-		mainWindow.setScene(scene);
-		mainWindow.setResizable(false);
-		mainWindow.setTitle("Dashboard Center");
-		mainWindow.show();
+			rowStationsID.setCellValueFactory(new PropertyValueFactory<>("stationID"));
+			rowStationsName.setCellValueFactory(new PropertyValueFactory<>("shopName"));
+			rowBenutzername.setCellValueFactory(new PropertyValueFactory<>("benutzerName"));
+			rowPasswort.setCellValueFactory(new PropertyValueFactory<>("passwort"));
+			rowStrasse.setCellValueFactory(new PropertyValueFactory<>("strasse"));
+			rowPLZ.setCellValueFactory(new PropertyValueFactory<>("plz"));
+			rowOrt.setCellValueFactory(new PropertyValueFactory<>("ort"));
 
-	}
+			stationTable.setItems(list);
 
-	// -------------Methoden: Fenster �ffnen-----------------------------
-	// -------------Shop, Spedition, Pakete------------------------------
-
-	// -------Shop Fenster wird ge�ffnet---------------------------------
-	public void shopFensterOeffnen() {
-		try {
-			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/de/rumait/shop/mainShopWindow.fxml"));
-			Parent root1 = (Parent) fxmlLoader.load();
-			Stage shopStage = new Stage();
-			shopStage.setScene(new Scene(root1));
-			shopStage.show();
-		} catch (Exception e) {
-			System.out.println("Shop: Fenster konnte nicht ge�ffnet werden: " + e);
 		}
 
 	}
 
-	// -------Spedition Fenster wird ge�ffnet----------------------------
-	public void speditionFensterOeffnen() {
-		try {
-			FXMLLoader fxmlLoader = new FXMLLoader(
-					getClass().getResource("/de/rumait/spedition/mainSpeditionWindow.fxml"));
-			Parent root1 = (Parent) fxmlLoader.load();
-			Stage speditionStage = new Stage();
-			speditionStage.setScene(new Scene(root1));
-			speditionStage.show();
-		} catch (Exception e) {
-			System.out.println("Spedition: Fenster konnte nicht ge�ffnet werden: " + e);
+	@FXML
+	void btnChangePressed(ActionEvent event) throws SQLException {
+
+		String idShop = lblStationIdShow.getText();
+		String stationName = tfShopNameChange.getText();
+		String benutzerName = tfBenutzernameChange.getText();
+		String passwort = tfPasswortChange.getText();
+		String strasse = tfStrasseChange.getText();
+		String plz = tfPLZChange.getText();
+		String ort = tfOrtChange.getText();
+
+		if (dbZugriff.checkConnection()) {
+
+			if (shopModel.changeStationInfo(dbZugriff.getStatement(), idShop, stationName, benutzerName, passwort,
+					strasse, plz, ort)) {
+
+				lblStationIdShow.setText("");
+				tfShopNameChange.setText("");
+				tfBenutzernameChange.setText("");
+				tfPasswortChange.setText("");
+				tfStrasseChange.setText("");
+				tfPLZChange.setText("");
+				tfOrtChange.setText("");
+
+				System.out.println("Hier kommt eine Fenstermeldung!(Erflgreich)");
+			} else {
+				System.out.println("Fenstermeldung! (Fehlgeschlagen)");
+			}
 		}
 
 	}
 
-	// -------Pakete Fenster wird ge�ffnet----------------------------
-	public void paketeFensterOeffnen() {
-		try {
-			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/de/rumait/pakete/mainPaketeWindow.fxml"));
-			Parent root1 = (Parent) fxmlLoader.load();
-			Stage paketeStage = new Stage();
-			paketeStage.setScene(new Scene(root1));
-			paketeStage.show();
-		} catch (Exception e) {
-			System.out.println("Pakete: Fenster konnte nicht ge�ffnet werden: " + e);
+	@FXML
+	void btnNeueStationPressed(ActionEvent event) throws SQLException {
+
+		String shopName = tfShopName.getText();
+		String benutzerName = tfBenutzername.getText();
+		String passwort = tfPasswort.getText();
+		String strasse = tfStrasse.getText();
+		String plz = tfPLZ.getText();
+		String ort = tfOrt.getText();
+
+		if (dbZugriff.checkConnection()) {
+
+			if (shopModel.createShopMember(dbZugriff.getStatement(), ort, plz, benutzerName, passwort, shopName,
+					strasse)) {
+				System.out.println("Fenstermeldung: erfolgreich");
+			} else {
+				System.out.println("Fenstermeldung: fehlgeschlagen");
+			}
 		}
+
+		tfShopName.setText("");
+		tfBenutzername.setText("");
+		tfPasswort.setText("");
+		tfStrasse.setText("");
+		tfPLZ.setText("");
+		tfOrt.setText("");
+
+	}
+
+	@FXML
+	void btnStationLoeschenPressed(ActionEvent event) throws Exception {
+
+		String passwort = tfPasswortAdminLoeschen.getText();
+		String stationID = tfIdLoeschen.getText();
+
+		if (shopModel.deleteStationEntery(dbZugriff, passwort, stationID)) {
+			System.out.println("Hier kommt eine Fenster Meldung (Erfolgreich)");
+		} else {
+			System.out.println("Hier kommt eine Fenstermeldung (Fehlgeschlagen)");
+		}
+
+		tfIdLoeschen.setText("");
+		tfPasswortAdminLoeschen.setText("");
+
+	}
+
+	@FXML
+	void btnStationSuchenPressed(ActionEvent event) throws SQLException {
+
+		stationTable.getItems().clear();
+		String stationID = tfStationIDSuchen.getText();
+		String stationName = tfStationNameSuchen.getText();
+
+		if (dbZugriff.checkConnection()) {
+			ResultSet abfrage = shopModel.getStationsFromSearch(dbZugriff.getStatement(), stationID, stationName);
+
+			while (abfrage.next()) {
+				list.add(new ShopModel(abfrage.getString(1), abfrage.getString(2), abfrage.getString(3),
+						abfrage.getString(4), abfrage.getString(5), abfrage.getString(6), abfrage.getString(7)));
+			}
+
+			rowStationsID.setCellValueFactory(new PropertyValueFactory<>("stationID"));
+			rowStationsName.setCellValueFactory(new PropertyValueFactory<>("shopName"));
+			rowBenutzername.setCellValueFactory(new PropertyValueFactory<>("benutzerName"));
+			rowPasswort.setCellValueFactory(new PropertyValueFactory<>("passwort"));
+			rowStrasse.setCellValueFactory(new PropertyValueFactory<>("strasse"));
+			rowPLZ.setCellValueFactory(new PropertyValueFactory<>("plz"));
+			rowOrt.setCellValueFactory(new PropertyValueFactory<>("ort"));
+
+			stationTable.setItems(list);
+
+			tfStationIDSuchen.setText("");
+			tfStationNameSuchen.setText("");
+		}
+	}
+
+	@FXML
+	void stationTablePressed(MouseEvent event) throws Exception{
+
+		String stationID = stationTable.getSelectionModel().getSelectedItem().getStationID();
+		String stationName = stationTable.getSelectionModel().getSelectedItem().getShopName();
+		String benutzername = stationTable.getSelectionModel().getSelectedItem().getBenutzerName();
+		String passwort = stationTable.getSelectionModel().getSelectedItem().getPasswort();
+		String strasse = stationTable.getSelectionModel().getSelectedItem().getStrasse();
+		String plz = stationTable.getSelectionModel().getSelectedItem().getPlz();
+		String ort = stationTable.getSelectionModel().getSelectedItem().getOrt();
+
+		lblStationIdShow.setText(stationID);
+
+		tfShopNameChange.setText(stationName);
+		tfBenutzernameChange.setText(benutzername);
+		tfPasswortChange.setText(passwort);
+		tfStrasseChange.setText(strasse);
+		tfPLZChange.setText(plz);
+		tfOrtChange.setText(ort);
 
 	}
 
@@ -198,48 +331,9 @@ public class ShopController implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
 		showUserLabel.setText(LoginController.username);
-
-		getShopMembersFromDatabase();
-
 	}
 
 	// -------Methode für TableView Liste, Elemente aus der Datenbank holen------
-
-	public void getShopMembersFromDatabase() {
-
-		try {
-			if (database.checkConnection()) {
-
-				Connection connection = database.getConnection();
-				ResultSet rSet = connection.createStatement().executeQuery("SELECT * from Shop");
-
-				while (rSet.next()) {
-
-					list.add(new ShopModel(rSet.getString("idShop"), rSet.getString("shopName"),
-							rSet.getString("strasse"), rSet.getString("benutzername")));
-
-				}
-
-				rowShopID.setCellValueFactory(new PropertyValueFactory<>("idShop"));
-				rowShopName.setCellValueFactory(new PropertyValueFactory<>("shopName"));
-				rowStrasse.setCellValueFactory(new PropertyValueFactory<>("strasse"));
-				rowBenutzername.setCellValueFactory(new PropertyValueFactory<>("benutzername"));
-
-				tableShop.setItems(list);
-
-			}
-
-		} catch (Exception e) {
-
-		}
-
-	}
-
-	public void refreashTable() {
-
-		tableShop.getItems().clear();
-		getShopMembersFromDatabase();
-	}
 
 	// -------------------------------------------------------------------
 }

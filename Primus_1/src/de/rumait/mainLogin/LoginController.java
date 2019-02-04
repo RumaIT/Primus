@@ -1,7 +1,7 @@
 package de.rumait.mainLogin;
 
 import java.net.URL;
-
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
@@ -14,27 +14,26 @@ import javafx.fxml.*;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 public class LoginController implements Initializable {
 
-	Database database = new Database();
-
+	
 	@FXML
 	private JFXButton loginButton;
-
 	@FXML
 	private JFXTextField userField;
-
 	@FXML
 	private JFXPasswordField passField;
-
 	@FXML
 	private Circle statusCircle;
 
 	public static String username;
+	private Database database = new Database();
+
 
 	// Action Methode für Login. Benutzt die userLogin Methode von Database
 	@FXML
@@ -52,6 +51,7 @@ public class LoginController implements Initializable {
 			System.out.println("Login fehlgeschlagen");
 			PopUpWindow.getPopUpWindow("Login fehlgeschlagen");
 		}
+		
 
 	}
 
@@ -87,7 +87,6 @@ public class LoginController implements Initializable {
 		} else {
 			statusCircle.setFill(Color.RED);
 		}
-
 	}
 
 	/*
@@ -106,7 +105,6 @@ public class LoginController implements Initializable {
 		Stage mainWindow = new Stage();
 		Parent root = FXMLLoader.load(getClass().getResource("/de/rumait/mainWindow/mainWindows.fxml"));
 		Scene scene = new Scene(root);
-		System.out.println("Spinn ich?");
 		mainWindow.setScene(scene);
 		mainWindow.setResizable(false);
 		mainWindow.setTitle("Primus Adminpanel");

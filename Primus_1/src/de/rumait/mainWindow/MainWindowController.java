@@ -50,7 +50,6 @@ public class MainWindowController implements Initializable {
 
 	public void btnUebersichtPressed(ActionEvent event) throws Exception {
 
-		ubersichtWindowstarten();
 
 	}
 
@@ -67,7 +66,7 @@ public class MainWindowController implements Initializable {
 		AnchorPane sceneSpeditionPressed = FXMLLoader
 				.load(getClass().getResource("/de/rumait/spedition/mainSpeditionWindow.fxml"));
 		rootPane.getChildren().setAll(sceneSpeditionPressed);
-
+		System.out.println("Test press");
 	}
 
 	// ----Methode PaketeFensterOeffnen wird nach Klick ausgef�hrt--------
@@ -97,20 +96,9 @@ public class MainWindowController implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
 		showUserLabel.setText(LoginController.username);
-		try {
-			ubersichtWindowstarten();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 
 	}
 	
-	
-	public void ubersichtWindowstarten() throws Exception {
-		AnchorPane sceneUebersichtPressed = FXMLLoader
-				.load(getClass().getResource("/de/rumait/uebersicht/mainUebersichtWindow.fxml"));
-		rootPane.getChildren().setAll(sceneUebersichtPressed);
-	}
 
 
 	
