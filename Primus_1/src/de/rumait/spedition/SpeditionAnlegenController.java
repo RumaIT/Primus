@@ -18,71 +18,57 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
 public class SpeditionAnlegenController {
+
+	@FXML
+	private JFXTextField tfSpeditionsName;
+	@FXML
+	private JFXTextField tfStadt;
+	@FXML
+	private JFXTextField tfStrasse;
+	@FXML
+	private JFXTextField tfPLZ;
+	@FXML
+	private JFXTextField tfHausnummer;
+	@FXML
+	private JFXTextField tfUserName;
+	@FXML
+	private JFXPasswordField tfPasswort;
+	@FXML
+	private JFXPasswordField tfPasswortConfirm;
+	@FXML
+	private JFXButton btnSpeditionAnlegen;
+
 	
-	 @FXML
-	    private JFXTextField tfSpeditionsName;
+	SpeditionModel model = new SpeditionModel();
+	Database db = new Database();
 
-	    @FXML
-	    private JFXTextField tfStadt;
+	
+	@FXML
+	void btnSpeditionAnlegenPressed(ActionEvent event) {
 
-	    @FXML
-	    private JFXTextField tfStrasse;
+		String ort = tfStadt.getText();
+		String strasse = tfStrasse.getText();
+		String hausnummer = tfHausnummer.getText();
+		String plz = tfPLZ.getText();
+		String passwort = tfPasswort.getText();
+		String passwortConfirm = tfPasswortConfirm.getText();
+		String SpeditionName = tfSpeditionsName.getText();
+		String benutzerName = tfUserName.getText();
 
-	    @FXML
-	    private JFXTextField tfPLZ;
+		if (db.checkConnection() && passwort.equals(passwortConfirm)) {
 
-	    @FXML
-	    private JFXTextField tfHausnummer;
+			model.createSpeditionsMember(db.getStatement(), ort, plz, benutzerName, passwort, SpeditionName, strasse,
+					hausnummer);
 
-	    @FXML
-	    private JFXTextField tfUserName;
+			PopUpWindow.getPopUpWindow("Die Spedition wurde erfolgreich angelegt.");
 
-	    @FXML
-	    private JFXPasswordField tfPasswort;
+			Stage parent = (Stage) btnSpeditionAnlegen.getScene().getWindow();
+			parent.close();
 
-	    @FXML
-	    private JFXPasswordField tfPasswortConfirm;
+		} else {
+			PopUpWindow.getPopUpWindow("Die Passwörter stimmen nicht überein");
+		}
 
-	    @FXML
-	    private JFXButton btnSpeditionAnlegen;
-	    
-	    SpeditionModel model = new SpeditionModel();
-	    Database db = new Database();
-	    
-		
-	    
-	    
-
-	    @FXML
-	    void btnSpeditionAnlegenPressed(ActionEvent event) {
-	    	
-	    	String ort = tfStadt.getText();
-	    	String strasse = tfStrasse.getText();
-	    	String hausnummer = tfHausnummer.getText();
-	    	String plz = tfPLZ.getText();
-	    	String passwort = tfPasswort.getText();
-	    	String passwortConfirm = tfPasswortConfirm.getText();
-	    	String SpeditionName = tfSpeditionsName.getText();
-	    	String benutzerName = tfUserName.getText();
-	    	
-	    	if(db.checkConnection() && passwort.equals(passwortConfirm)) {
-	    		
-	    	model.createSpeditionsMember(db.getStatement(), ort, plz, benutzerName, passwort, SpeditionName, strasse, hausnummer);
-	    	
-	    	PopUpWindow.getPopUpWindow("Die Spedition wurde erfolgreich angelegt.");
-	    	
-	    	
-	    	
-	    	Stage parent = (Stage) btnSpeditionAnlegen.getScene().getWindow();
-	    	parent.close();
-	    	
-	    	}else {
-	    		PopUpWindow.getPopUpWindow("Die Passwörter stimmen nicht überein");
-	    	}
-
-	    }
-
-	    
-	    
+	}
 
 }

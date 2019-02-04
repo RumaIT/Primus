@@ -2,12 +2,10 @@ package de.rumait.shop;
 
 import java.io.IOException;
 
-
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.ResourceBundle;
-
 import com.jfoenix.controls.JFXButton;
 import de.rumait.databse.Database;
 import de.rumait.mainLogin.LoginController;
@@ -32,18 +30,14 @@ public class ShopController implements Initializable {
 	// ------Buttons werden erstellt-----------------------------------------
 	@FXML
 	private Label showUserLabel;
-
 	@FXML
 	private JFXButton btnAusloggen;
-
 	@FXML
 	private JFXButton shopButton;
-
 	@FXML
 	private JFXButton speditionButton;
 	@FXML
 	private JFXButton btnUebersicht;
-
 	@FXML
 	private JFXButton paketeButton;
 	@FXML
@@ -56,19 +50,14 @@ public class ShopController implements Initializable {
 	private JFXButton btnRefresh;
 	@FXML
 	private TableView<ShopModel> tableShop;
-
 	@FXML
 	private TableColumn<ShopModel, String> rowShopID;
-
 	@FXML
 	private TableColumn<ShopModel, String> rowShopName;
-
 	@FXML
 	private TableColumn<ShopModel, String> rowStrasse;
-
 	@FXML
 	private TableColumn<ShopModel, String> rowBenutzername;
-
 	private ObservableList<ShopModel> list = FXCollections.observableArrayList();
 
 	// ---------------------------------------------------------------------
@@ -122,14 +111,14 @@ public class ShopController implements Initializable {
 		loginWindow.Loginstarten();
 
 	}
-	//-----Methode Btn Aktualisieren gedrückt
-	 @FXML
-	    void btnRefreshPressed(ActionEvent event) {
-		 
-		 refreashTable();
-		 
-	    }
 
+	// -----Methode Btn Aktualisieren gedrückt
+	@FXML
+	void btnRefreshPressed(ActionEvent event) {
+
+		refreashTable();
+
+	}
 
 	@FXML
 	void btnNewShopPressed(ActionEvent event) throws Exception {
@@ -209,53 +198,47 @@ public class ShopController implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
 		showUserLabel.setText(LoginController.username);
-		
+
 		getShopMembersFromDatabase();
-		
+
 	}
 
-	
-	
 	// -------Methode für TableView Liste, Elemente aus der Datenbank holen------
 
 	public void getShopMembersFromDatabase() {
-		
+
 		try {
 			if (database.checkConnection()) {
 
 				Connection connection = database.getConnection();
 				ResultSet rSet = connection.createStatement().executeQuery("SELECT * from Shop");
-				
-				
+
 				while (rSet.next()) {
 
-					list.add(new ShopModel(rSet.getString("idShop"), rSet.getString("shopName"),rSet.getString("strasse"), rSet.getString("benutzername")));
-					
+					list.add(new ShopModel(rSet.getString("idShop"), rSet.getString("shopName"),
+							rSet.getString("strasse"), rSet.getString("benutzername")));
+
 				}
-				
-				
 
 				rowShopID.setCellValueFactory(new PropertyValueFactory<>("idShop"));
 				rowShopName.setCellValueFactory(new PropertyValueFactory<>("shopName"));
 				rowStrasse.setCellValueFactory(new PropertyValueFactory<>("strasse"));
 				rowBenutzername.setCellValueFactory(new PropertyValueFactory<>("benutzername"));
-				
+
 				tableShop.setItems(list);
-		
+
 			}
 
 		} catch (Exception e) {
 
 		}
-		
-
 
 	}
-	
+
 	public void refreashTable() {
-		
+
 		tableShop.getItems().clear();
-		 getShopMembersFromDatabase();
+		getShopMembersFromDatabase();
 	}
 
 	// -------------------------------------------------------------------

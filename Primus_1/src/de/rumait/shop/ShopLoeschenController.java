@@ -17,53 +17,45 @@ import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
 
 public class ShopLoeschenController {
-		@FXML
-	    private JFXTextField tfShopID;
+	@FXML
+	private JFXTextField tfShopID;
+	@FXML
+	private JFXButton btnShopLoeschen;
 
-	    @FXML
-	    private JFXButton btnShopLoeschen;
-	    
-	    ShopModel shopModel = new ShopModel();
-	    Database db = new Database();
-	    ShopController sc = new ShopController();
-	    
+	ShopModel shopModel = new ShopModel();
+	Database db = new Database();
+	ShopController sc = new ShopController();
 
-	    @FXML
-	    void btnShopLoeschenPressed(ActionEvent event) {
+	@FXML
+	void btnShopLoeschenPressed(ActionEvent event) {
 
-	    	String shopID = tfShopID.getText();
-	    	
-	    	// Pop Up Fenster, das Ja oder nein ausgibt um das Löschen zu bestätigen 
-	    	Alert alert = new Alert(AlertType.CONFIRMATION);
-	    	alert.setTitle("Bestätigung erforderlich");
-	    	alert.setContentText("Sind sie sicher, dass Sie die Station entgültig löschen wollen?");
-	    	Optional <ButtonType> action = alert.showAndWait();
-	    	
-	    	if(action.get() == ButtonType.OK) {
-	    		
-	    		if(db.checkConnection()) {
-		    		
-			    	shopModel.shopMemberLoeschen(db.getStatement(), shopID);
+		String shopID = tfShopID.getText();
 
-			    	
-		
-			    	PopUpWindow.getPopUpWindow("Der User wurde erfolgreich gelöscht");
-			    	
-			    	sc.refreashTable();
-			    	
-			    	Stage shopLoeschen = (Stage)btnShopLoeschen.getScene().getWindow();
-			    	shopLoeschen.close();
-		    	}else {
-		    		System.out.println("Der User konnte nicht gefunden werden");
-		    		PopUpWindow.getPopUpWindow("Die Spedition mit dieser ID konnte nicht gefunden werden");
-		    	}
-	    		
-	    	}
-	    	
-	    	
-	    	
+		// Pop Up Fenster, das Ja oder nein ausgibt um das Löschen zu bestätigen
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Bestätigung erforderlich");
+		alert.setContentText("Sind sie sicher, dass Sie die Station entgültig löschen wollen?");
+		Optional<ButtonType> action = alert.showAndWait();
 
-	    }
-	    
+		if (action.get() == ButtonType.OK) {
+
+			if (db.checkConnection()) {
+
+				shopModel.shopMemberLoeschen(db.getStatement(), shopID);
+
+				PopUpWindow.getPopUpWindow("Der User wurde erfolgreich gelöscht");
+
+				sc.refreashTable();
+
+				Stage shopLoeschen = (Stage) btnShopLoeschen.getScene().getWindow();
+				shopLoeschen.close();
+			} else {
+				System.out.println("Der User konnte nicht gefunden werden");
+				PopUpWindow.getPopUpWindow("Die Spedition mit dieser ID konnte nicht gefunden werden");
+			}
+
+		}
+
+	}
 
 }

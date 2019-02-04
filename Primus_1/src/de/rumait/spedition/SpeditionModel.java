@@ -2,111 +2,105 @@ package de.rumait.spedition;
 
 import java.sql.Statement;
 
-
 public class SpeditionModel {
-	
-	private String spediID, spediName, spediUserName, spediStrasse;
-	
-	
+
+	private String spediID;
+	private String spediName;
+	private String spediUserName;
+	private String spediStrasse;
+
 	public SpeditionModel(String spediID, String spediName, String spediUserName, String spediStrasse) {
-		
+
 		this.spediID = spediID;
 		this.spediName = spediName;
 		this.spediUserName = spediUserName;
 		this.spediStrasse = spediStrasse;
-		
+
 	}
-	
+
 	public SpeditionModel() {
-		
+
 	}
-	
 
-	
-public void createSpeditionsMember(Statement statement, String ort, String plz, String benutzername, String passwort, String speditionName, String strasse, String hausnummer){
-		
+	public void createSpeditionsMember(Statement statement, String ort, String plz, String benutzername,
+			String passwort, String speditionName, String strasse, String hausnummer) {
+
 		try {
-		
-		String sqlOrt = "INSERT IGNORE INTO Orte VALUES (null,'"+plz+"','"+ort+"')";
 
-		String sqluser ="INSERT INTO Spedition VALUES (null,"+"(SELECT idOrte FROM Orte WHERE PLZ='"+plz+"'),'"+benutzername+"','"+passwort+"','"+speditionName+"','"+strasse+" "+hausnummer+"')";
-		
+			String sqlOrt = "INSERT IGNORE INTO Orte VALUES (null,'" + plz + "','" + ort + "')";
+
+			String sqluser = "INSERT INTO Spedition VALUES (null," + "(SELECT idOrte FROM Orte WHERE PLZ='" + plz
+					+ "'),'" + benutzername + "','" + passwort + "','" + speditionName + "','" + strasse + " "
+					+ hausnummer + "')";
+
 			System.out.println("Creating...");
-			
+
 			statement.executeUpdate(sqlOrt);
-			
+
 			System.out.println("Ort created!");
-			
+
 			System.out.println("Creating....");
-			
+
 			statement.executeUpdate(sqluser);
 			System.out.println("Spedition created!");
-			
-			
-		}catch (Exception e) {
+
+		} catch (Exception e) {
 			System.out.println(e.getStackTrace());
 		}
 	}
 
+	public void speditionMemberLoeschen(Statement statement, String id) {
 
-public void speditionMemberLoeschen(Statement statement, String id) {
-	
-	//String sql1 ="SELECT * FROM Shop";
-	
-	String sql ="DELETE FROM Spedition WHERE idSpedition='"+id+"'";
-	
-	
-	
-	try {
-		
-	//	statement.execute(sql1);
-		statement.execute(sql);
-		
-		System.out.println("User deleted!");
+		// String sql1 ="SELECT * FROM Shop";
 
-	} catch (Exception e) {
-		System.out.println(e.getStackTrace());
-	}	
-}
+		String sql = "DELETE FROM Spedition WHERE idSpedition='" + id + "'";
 
-public void getDataFromDatabase() {
-	
-}
+		try {
 
-public String getSpediID() {
-	return spediID;
-}
+			// statement.execute(sql1);
+			statement.execute(sql);
 
-public void setSpediID(String spediID) {
-	this.spediID = spediID;
-}
+			System.out.println("User deleted!");
 
-public String getSpediName() {
-	return spediName;
-}
+		} catch (Exception e) {
+			System.out.println(e.getStackTrace());
+		}
+	}
 
-public void setSpediName(String spediName) {
-	this.spediName = spediName;
-}
+	public void getDataFromDatabase() {
 
-public String getSpediUserName() {
-	return spediUserName;
-}
+	}
 
-public void setSpediUserName(String spediUserName) {
-	this.spediUserName = spediUserName;
-}
+	public String getSpediID() {
+		return spediID;
+	}
 
-public String getSpediStrasse() {
-	return spediStrasse;
-}
+	public void setSpediID(String spediID) {
+		this.spediID = spediID;
+	}
 
-public void setSpediStrasse(String spediStrasse) {
-	this.spediStrasse = spediStrasse;
-}
+	public String getSpediName() {
+		return spediName;
+	}
 
+	public void setSpediName(String spediName) {
+		this.spediName = spediName;
+	}
 
-	
-	
+	public String getSpediUserName() {
+		return spediUserName;
+	}
+
+	public void setSpediUserName(String spediUserName) {
+		this.spediUserName = spediUserName;
+	}
+
+	public String getSpediStrasse() {
+		return spediStrasse;
+	}
+
+	public void setSpediStrasse(String spediStrasse) {
+		this.spediStrasse = spediStrasse;
+	}
 
 }

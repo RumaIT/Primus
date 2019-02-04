@@ -21,82 +21,82 @@ import javafx.stage.Stage;
 public class PaketeController implements Initializable {
 
 	Database database = new Database();
-	
-	
-	//------Buttons werden erstellt-----------------------------------------
+
+	// ------Buttons werden erstellt-----------------------------------------
 	@FXML
-    private Label showUserLabel;
+	private Label showUserLabel;
 
-    @FXML
-    private JFXButton btnAusloggen;
+	@FXML
+	private JFXButton btnAusloggen;
 
-    @FXML
-    private JFXButton shopButton;
+	@FXML
+	private JFXButton shopButton;
 
-    @FXML
-    private JFXButton speditionButton;
-    @FXML 
-    private JFXButton btnUebersicht;
+	@FXML
+	private JFXButton speditionButton;
+	@FXML
+	private JFXButton btnUebersicht;
 
-    @FXML
-    private JFXButton paketeButton;
-    @FXML
-    private AnchorPane rootPane;
-	//---------------------------------------------------------------------
-	
-    //---------------Methoden für die verschiedenen Fenster----------------------------
-	
-	//-----Methode ShopFensterOeffnen wird nach Klick ausgef�hrt------------
-    
-   public void btnUebersichtPressed(ActionEvent event) throws Exception {
-    	
-    	AnchorPane sceneUebersichtPressed = FXMLLoader.load(getClass().getResource("/de/rumait/uebersicht/mainUebersichtWindow.fxml"));
+	@FXML
+	private JFXButton paketeButton;
+	@FXML
+	private AnchorPane rootPane;
+	// ---------------------------------------------------------------------
+
+	// ---------------Methoden für die verschiedenen
+	// Fenster----------------------------
+
+	// -----Methode ShopFensterOeffnen wird nach Klick ausgef�hrt------------
+
+	public void btnUebersichtPressed(ActionEvent event) throws Exception {
+
+		AnchorPane sceneUebersichtPressed = FXMLLoader
+				.load(getClass().getResource("/de/rumait/uebersicht/mainUebersichtWindow.fxml"));
 		rootPane.getChildren().setAll(sceneUebersichtPressed);
 
-    }
-    
-	public void shopPressed(ActionEvent event) throws Exception {
-		
-		
-		AnchorPane sceneShopPressed = FXMLLoader.load(getClass().getResource("/de/rumait/shop/mainShopWindow.fxml"));
-		rootPane.getChildren().setAll(sceneShopPressed);
-		
 	}
 
-	
-	//----Methode SpeditoinFensterOeffnen wird nach Klick ausgef�hrt--------
+	public void shopPressed(ActionEvent event) throws Exception {
+
+		AnchorPane sceneShopPressed = FXMLLoader.load(getClass().getResource("/de/rumait/shop/mainShopWindow.fxml"));
+		rootPane.getChildren().setAll(sceneShopPressed);
+
+	}
+
+	// ----Methode SpeditoinFensterOeffnen wird nach Klick ausgef�hrt--------
 	public void speditionPressed(ActionEvent event) throws Exception {
-		
-		AnchorPane sceneSpeditionPressed = FXMLLoader.load(getClass().getResource("/de/rumait/spedition/mainSpeditionWindow.fxml"));
+
+		AnchorPane sceneSpeditionPressed = FXMLLoader
+				.load(getClass().getResource("/de/rumait/spedition/mainSpeditionWindow.fxml"));
 		rootPane.getChildren().setAll(sceneSpeditionPressed);
-		
+
 	}
-	
-	//----Methode PaketeFensterOeffnen wird nach Klick ausgef�hrt--------
+
+	// ----Methode PaketeFensterOeffnen wird nach Klick ausgef�hrt--------
 	public void paketePressed(ActionEvent event) throws Exception {
-		
-		AnchorPane scenePaketePressed = FXMLLoader.load(getClass().getResource("/de/rumait/pakete/mainPaketeWindow.fxml"));
+
+		AnchorPane scenePaketePressed = FXMLLoader
+				.load(getClass().getResource("/de/rumait/pakete/mainPaketeWindow.fxml"));
 		rootPane.getChildren().setAll(scenePaketePressed);
-		
+
 	}
-	//---Methode Ausloggen und LoginFenster starten----------------------
+
+	// ---Methode Ausloggen und LoginFenster starten----------------------
 	@FXML
-    public void btnAusloggenPressed(ActionEvent event) throws IOException {
-		
+	public void btnAusloggenPressed(ActionEvent event) throws IOException {
+
 		Stage openStage = (Stage) shopButton.getScene().getWindow();
 		openStage.close();
-		
+
 		LoginMain loginWindow = new LoginMain();
 		loginWindow.Loginstarten();
 
-    }
-	
-	
-	//-------------Methoden: Fenster �ffnen-----------------------------
-	//-------------Shop, Spedition, Pakete------------------------------
-	
-	
-	//-------Shop Fenster wird ge�ffnet---------------------------------
+	}
+
+	// -------------Methoden: Fenster �ffnen-----------------------------
+	// -------------Shop, Spedition, Pakete------------------------------
+
+	// -------Shop Fenster wird ge�ffnet---------------------------------
 	public void shopFensterOeffnen() {
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/de/rumait/shop/mainShopWindow.fxml"));
@@ -105,26 +105,27 @@ public class PaketeController implements Initializable {
 			shopStage.setScene(new Scene(root1));
 			shopStage.show();
 		} catch (Exception e) {
-			System.out.println("Shop: Fenster konnte nicht ge�ffnet werden: " +e);
+			System.out.println("Shop: Fenster konnte nicht ge�ffnet werden: " + e);
 		}
 
 	}
-	
-	//-------Spedition Fenster wird ge�ffnet----------------------------
+
+	// -------Spedition Fenster wird ge�ffnet----------------------------
 	public void speditionFensterOeffnen() {
 		try {
-			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/de/rumait/spedition/mainSpeditionWindow.fxml"));
+			FXMLLoader fxmlLoader = new FXMLLoader(
+					getClass().getResource("/de/rumait/spedition/mainSpeditionWindow.fxml"));
 			Parent root1 = (Parent) fxmlLoader.load();
 			Stage speditionStage = new Stage();
 			speditionStage.setScene(new Scene(root1));
 			speditionStage.show();
 		} catch (Exception e) {
-			System.out.println("Spedition: Fenster konnte nicht ge�ffnet werden: " +e);
+			System.out.println("Spedition: Fenster konnte nicht ge�ffnet werden: " + e);
 		}
 
 	}
-	
-	//-------Pakete Fenster wird ge�ffnet----------------------------
+
+	// -------Pakete Fenster wird ge�ffnet----------------------------
 	public void paketeFensterOeffnen() {
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/de/rumait/pakete/mainPaketeWindow.fxml"));
@@ -133,22 +134,18 @@ public class PaketeController implements Initializable {
 			paketeStage.setScene(new Scene(root1));
 			paketeStage.show();
 		} catch (Exception e) {
-			System.out.println("Pakete: Fenster konnte nicht ge�ffnet werden: " +e);
+			System.out.println("Pakete: Fenster konnte nicht ge�ffnet werden: " + e);
 		}
 
 	}
 
-
 //---------initialize: Füllt das Label mit dem Benutzten der sich eingeloggt hat---------
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		
+
 		showUserLabel.setText(LoginController.username);
-		
+
 	}
-	
-	
-	
-	
-	//-------------------------------------------------------------------
+
+	// -------------------------------------------------------------------
 }
