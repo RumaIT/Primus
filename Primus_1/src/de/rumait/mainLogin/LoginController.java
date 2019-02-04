@@ -104,9 +104,9 @@ public class LoginController implements Initializable {
 		// Neues Fenster öffnen
 
 		Stage mainWindow = new Stage();
-		Parent root = FXMLLoader.load(getClass().getResource("/de/rumait/mainWindow/mainWindow.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("/de/rumait/mainWindow/mainWindows.fxml"));
 		Scene scene = new Scene(root);
-
+		System.out.println("Spinn ich?");
 		mainWindow.setScene(scene);
 		mainWindow.setResizable(false);
 		mainWindow.setTitle("Primus Adminpanel");

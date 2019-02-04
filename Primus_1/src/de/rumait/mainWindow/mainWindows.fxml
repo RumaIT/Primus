@@ -2,8 +2,6 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.shape.Line?>
@@ -33,31 +31,6 @@
                </font>
             </Label>
          </children></Pane>
-      <ImageView fitHeight="37.0" fitWidth="37.0" layoutX="33.0" layoutY="368.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../../../../../Desktop/Programmieren/Primus/Design/Main/icons8-shop-48%20(3).png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="37.0" fitWidth="37.0" layoutX="33.0" layoutY="468.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../../../../../Desktop/Programmieren/Primus/Design/Main/icons8-truck-48.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="37.0" fitWidth="37.0" layoutX="33.0" layoutY="571.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../../../../../Desktop/Programmieren/Primus/Design/Main/icons8-box-48.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="26.0" fitWidth="26.0" layoutX="14.0" layoutY="713.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../../../../../Desktop/Programmieren/Primus/Design/Main/icons8-settings-48.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="37.0" fitWidth="37.0" layoutX="33.0" layoutY="264.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../../../../../Desktop/Programmieren/Primus/Design/Main/icons8-dashboard-48.png" />
-         </image>
-      </ImageView>
       <Pane layoutY="85.0" prefHeight="672.0" prefWidth="185.0" style="-fx-background-color: lightblue;">
          <children>
             <Label layoutX="49.0" layoutY="18.0" text="Menü">
