@@ -6,9 +6,10 @@ import java.sql.Statement;
 
 public class PaketModel {
 	
-	private String paketID, kundenID, gewicht, breite, hoehe, verfolgungsID, status, Datum, uhrzeit;
+	private String paketID, kundenID, gewicht, breite, hoehe, verfolgungsID, status, Datum, uhrzeit, stationsID, zuweisungsID;
 
 	
+
 	public PaketModel(String paketID, String kundenID, String gewicht, String breite, String hoehe,
 			String verfolgungsID, String status, String datum, String uhrzeit) {
 		super();
@@ -27,9 +28,15 @@ public class PaketModel {
 		
 	}
 	
+
 	
-	
-	
+	public PaketModel(String paketID, String stationsID, String zuweisungsID) {
+		super();
+		this.paketID = paketID;
+		this.stationsID = stationsID;
+		this.zuweisungsID = zuweisungsID;
+	}
+
 	public ResultSet getAllPackgesFromDatabase(Statement statement) throws SQLException {
 		
 		ResultSet abfrage = null;
@@ -90,12 +97,6 @@ public class PaketModel {
 		return true;
 	
 	}
-	
-	
-	
-	
-	
-	
 	
 	
 
@@ -169,6 +170,21 @@ public class PaketModel {
 
 	public void setUhrzeit(String uhrzeit) {
 		this.uhrzeit = uhrzeit;
+	}
+	public String getStationsID() {
+		return stationsID;
+	}
+
+	public void setStationsID(String stationsID) {
+		this.stationsID = stationsID;
+	}
+
+	public String getZuweisungsID() {
+		return zuweisungsID;
+	}
+
+	public void setZuweisungsID(String zuweisungsID) {
+		this.zuweisungsID = zuweisungsID;
 	}
 
 }
