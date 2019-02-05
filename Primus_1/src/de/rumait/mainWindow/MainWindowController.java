@@ -36,7 +36,8 @@ public class MainWindowController implements Initializable {
 	private JFXButton speditionButton;
 	@FXML
 	private JFXButton btnUebersicht;
-
+	@FXML
+    private JFXButton btnKunden;
 	@FXML
 	private JFXButton paketeButton;
 	@FXML
@@ -88,6 +89,12 @@ public class MainWindowController implements Initializable {
 		LoginMain loginWindow = new LoginMain();
 		loginWindow.Loginstarten();
 
+	}
+	
+	@FXML
+    void btnKundenPressed(ActionEvent event) throws IOException {
+		AnchorPane sceneKundenPressed = FXMLLoader.load(getClass().getResource("/de/rumait/kunden/mainKundenWindow.fxml"));
+		rootPane.getChildren().setAll(sceneKundenPressed);
 	}
 	
 	

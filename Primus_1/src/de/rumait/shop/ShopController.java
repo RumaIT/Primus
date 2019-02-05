@@ -53,6 +53,8 @@ public class ShopController implements Initializable {
 	@FXML
 	private JFXTextField tfStationIDSuchen;
 	@FXML
+    private JFXButton btnKunden;
+	@FXML
 	private JFXTextField tfStationNameSuchen;
 	@FXML
 	private JFXButton btnStationSuchen;
@@ -153,6 +155,14 @@ public class ShopController implements Initializable {
 		rootPane.getChildren().setAll(scenePaketePressed);
 
 	}
+	//Kunden fenster öffnen
+	
+	@FXML
+    void btnKundenPressed(ActionEvent event) throws IOException {
+		
+		AnchorPane sceneKundenPressed = FXMLLoader.load(getClass().getResource("/de/rumait/kunden/mainKundenWindow.fxml"));
+		rootPane.getChildren().setAll(sceneKundenPressed);
+    }
 
 	// ---Methode Ausloggen und LoginFenster starten----------------------
 	@FXML
@@ -165,6 +175,7 @@ public class ShopController implements Initializable {
 		loginWindow.Loginstarten();
 
 	}
+	
 
 //----------------------Methoden für Buttons ---------------------------------------------
 
