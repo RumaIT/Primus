@@ -27,9 +27,7 @@ public class PaketModel {
 	public PaketModel() {
 		
 	}
-	
 
-	
 	public PaketModel(String paketID, String stationsID, String zuweisungsID) {
 		super();
 		this.paketID = paketID;
@@ -96,6 +94,28 @@ public class PaketModel {
 		statement.execute(sql);
 		return true;
 	
+	}
+	
+	public boolean paketLoeschen(Statement statement, String paketID) throws SQLException {
+		
+		String sql = 	"DELETE FROM SpeditionPaketZuweisung " +
+						"WHERE Pakete_idPakete='"+paketID+"'";
+		
+		String sql2= 	"DELETE FROM ShopPaketZuweisung " + 
+						"WHERE Pakete_idPakete='"+paketID+"'";
+				
+		String sql3=	"DELETE FROM PaketVerfolgung " + 
+						"WHERE Pakete_idPakete='"+paketID+"'";
+				
+		String sql4=	"DELETE FROM Pakete" + 
+						"WHERE Pakete.idPakete='"+paketID+"'";
+		
+		statement.execute(sql);
+		statement.execute(sql2);
+		statement.execute(sql3);
+		statement.execute(sql4);
+		
+		return true;
 	}
 	
 	

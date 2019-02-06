@@ -65,21 +65,21 @@ public class PaketeController implements Initializable {
 	@FXML
 	private TableColumn<PaketModel, String> paketeUhrzeit;
 	@FXML
-	private TableView<PaketeModellSpeditionTabelle> tableStationPakete;
+	private TableView<PaketeModellStationTabelle> tableStationPakete;
 	@FXML
-	private TableColumn<PaketeModellSpeditionTabelle, String> stationPaketeZuweisungsID;
+	private TableColumn<PaketeModellStationTabelle, String> stationPaketeZuweisungsID;
 	@FXML
-	private TableColumn<PaketeModellSpeditionTabelle, String> stationPaketeShopID;
+	private TableColumn<PaketeModellStationTabelle, String> stationPaketeShopID;
 	@FXML
-	private TableColumn<PaketeModellSpeditionTabelle, String> stationPaketePaketID;
+	private TableColumn<PaketeModellStationTabelle, String> stationPaketePaketID;
 	@FXML
-	private TableView<PaketModel> tableSpeditionPakete;
+	private TableView<SpeditionPaketeTabelleModel> tableSpeditionPakete;
 	@FXML
-	private TableColumn<PaketModel, String> speditionPaketeZuweisungsID;
+	private TableColumn<SpeditionPaketeTabelleModel, String> speditionPaketeZuweisungsID;
 	@FXML
-	private TableColumn<PaketModel, String> speditionPaketeSpeditionsID;
+	private TableColumn<SpeditionPaketeTabelleModel, String> speditionPaketeSpeditionsID;
 	@FXML
-	private TableColumn<PaketModel, String> speditionPaketePaketID;
+	private TableColumn<SpeditionPaketeTabelleModel, String> speditionPaketePaketID;
 	@FXML
 	private JFXTextField tfPaketePaketeIDSuchen;
 	@FXML
@@ -149,10 +149,11 @@ public class PaketeController implements Initializable {
 	private Database dbZugriff = new Database();
 	private ObservableList<PaketModel> list = FXCollections.observableArrayList();
 	private PaketModel paketModel = new PaketModel();
-	private ObservableList<PaketeModellSpeditionTabelle> list2 = FXCollections.observableArrayList();
-	private PaketeModellSpeditionTabelle paketSpeditionPaketModell = new PaketeModellSpeditionTabelle();
+	private ObservableList<PaketeModellStationTabelle> list2 = FXCollections.observableArrayList();
+	private PaketeModellStationTabelle paketStationPaketModell = new PaketeModellStationTabelle();
 	private String selection;
-	
+	private ObservableList<SpeditionPaketeTabelleModel>list3 = FXCollections.observableArrayList();
+	private SpeditionPaketeTabelleModel speditionPaketeTabelleModel = new SpeditionPaketeTabelleModel();
 	// ---------------------------------------------------------------------
 
 	// ---------------Methoden für die verschiedenen
@@ -215,10 +216,9 @@ public class PaketeController implements Initializable {
 
 	@FXML
 	void btnDatenAendernPressed(ActionEvent event) throws SQLException {
-		
-		
+
 		if (selection.equals("1")) {
-			
+
 			String paketID = tablePakete.getSelectionModel().getSelectedItem().getPaketID();
 
 			String kundenID = tf1.getText();
@@ -239,28 +239,48 @@ public class PaketeController implements Initializable {
 			}
 
 			if (dbZugriff.checkConnection()) {
-				paketModel.paketeAendern(dbZugriff.getStatement(), kundenID, gewicht, breite, hoehe, status, datum, uhrzeit,
-						versicherung, paketID);
+				paketModel.paketeAendern(dbZugriff.getStatement(), kundenID, gewicht, breite, hoehe, status, datum,
+						uhrzeit, versicherung, paketID);
 			}
 
-		felderAusblenden();
+			felderAusblenden();
 
 			System.out.println("Daten geändert");
 
-		}else if(selection.equals("2")) {
-			
+		} else if (selection.equals("2")) {
+
 			String stationsID = tf1.getText();
 			String paketID = tf2.getText();
 			String zuweisungsID = tableStationPakete.getSelectionModel().getSelectedItem().getZuweisungsID();
-			if(dbZugriff.checkConnection()) {
-				paketSpeditionPaketModell.aendereStationPaketDaten(dbZugriff.getStatement(), stationsID, paketID, zuweisungsID);
+			if (dbZugriff.checkConnection()) {
+				paketStationPaketModell.aendereStationPaketDaten(dbZugriff.getStatement(), stationsID, paketID,
+						zuweisungsID);
 			}
+			felderAusblenden();
+		}else if(selection.equals("3")) {
+			
+			String speditionID = tf1.getText();
+			String paketID = tf2.getText();
+			String zuweisungsID = tableSpeditionPakete.getSelectionModel().getSelectedItem().getZuweisungsID();
+			
+			if(dbZugriff.checkConnection()) {
+				speditionPaketeTabelleModel.aendereDaten(dbZugriff.getStatement(), speditionID, paketID, zuweisungsID);
+			}
+			felderAusblenden();
 		}
-
 	}
 
 	@FXML
-	void btnPaketLoeschenPressed(ActionEvent event) {
+	void btnPaketLoeschenPressed(ActionEvent event) throws Exception {
+		
+		String password = tfAdminPasswortLoeschen.getText();
+		String paketID = tfPaketIDLoeschen.getText();
+		
+		if(dbZugriff.checkConnection()) {
+			if(dbZugriff.userLogin(LoginController.username, password)) {
+				paketModel.paketLoeschen(dbZugriff.getStatement(), paketID);
+			}
+		}
 
 	}
 
@@ -335,44 +355,88 @@ public class PaketeController implements Initializable {
 	}
 
 	@FXML
-	void btnSpeditionPaketeAlleAnzeigenPressed(ActionEvent event) {
+	void btnSpeditionPaketeAlleAnzeigenPressed(ActionEvent event) throws SQLException {
+		
+		tableSpeditionPakete.getItems().clear();
+		if(dbZugriff.checkConnection()) {
+			ResultSet abfrage = speditionPaketeTabelleModel.getAllInfoFromDatabase(dbZugriff.getStatement());
+			while(abfrage.next()) {
+				list3.add(new SpeditionPaketeTabelleModel(abfrage.getString(2), abfrage.getString(3), abfrage.getString(1)));
+			}
+			speditionPaketeZuweisungsID.setCellValueFactory(new PropertyValueFactory<>("zuweisungsID"));
+			speditionPaketePaketID.setCellValueFactory(new PropertyValueFactory<>("paketID"));
+			speditionPaketeSpeditionsID.setCellValueFactory(new PropertyValueFactory<>("speditionID"));
+			System.out.println("Test");
+			tableSpeditionPakete.setItems(list3);
+		}
 
 	}
 
 	@FXML
-	void btnSpeditionPaketeSuchenPressed(ActionEvent event) {
-
+	void btnSpeditionPaketeSuchenPressed(ActionEvent event) throws SQLException {
+		tableSpeditionPakete.getItems().clear();
+		String paketID = tfSpeditionPaketePaketID.getText();
+		
+		if(dbZugriff.checkConnection()) {
+			ResultSet abfrage = speditionPaketeTabelleModel.searchTableSpeditionPakete(dbZugriff.getStatement(), paketID);
+			while(abfrage.next()) {
+				list3.add(new SpeditionPaketeTabelleModel(abfrage.getString(2), abfrage.getString(3), abfrage.getString(1)));
+			}
+			speditionPaketeZuweisungsID.setCellValueFactory(new PropertyValueFactory<>("zuweisungsID"));
+			speditionPaketePaketID.setCellValueFactory(new PropertyValueFactory<>("paketID"));
+			speditionPaketeSpeditionsID.setCellValueFactory(new PropertyValueFactory<>("speditionID"));
+			
+			tableSpeditionPakete.setItems(list3);
+		}
+		
+		tfSpeditionPaketePaketID.setText("");
 	}
+
 
 	@FXML
 	void btnStationPaketeAlleAnzeigenPressed(ActionEvent event) throws SQLException {
-		
+
 		tableStationPakete.getItems().clear();
-		
-		if(dbZugriff.checkConnection()) {
-			ResultSet abfrage= paketSpeditionPaketModell.getStationPaketAll(dbZugriff.getStatement());
-			while(abfrage.next()) {
-				list2.add(new PaketeModellSpeditionTabelle(abfrage.getString(1), abfrage.getString(2), abfrage.getString(3)));
+
+		if (dbZugriff.checkConnection()) {
+			ResultSet abfrage = paketStationPaketModell.getStationPaketAll(dbZugriff.getStatement());
+			while (abfrage.next()) {
+				list2.add(new PaketeModellStationTabelle(abfrage.getString(3), abfrage.getString(2),
+						abfrage.getString(1)));
 			}
 			stationPaketeZuweisungsID.setCellValueFactory(new PropertyValueFactory<>("zuweisungsID"));
 			stationPaketeShopID.setCellValueFactory(new PropertyValueFactory<>("stationsID"));
 			stationPaketePaketID.setCellValueFactory(new PropertyValueFactory<>("paketID"));
-			
+
 			tableStationPakete.setItems(list2);
 		}
 
 	}
 
 	@FXML
-	void btnStationPaketeSuchenPressed(ActionEvent event) {
+	void btnStationPaketeSuchenPressed(ActionEvent event) throws SQLException {
+		tableStationPakete.getItems().clear();
+		String paketID = tfStationPaketePaketID.getText();
 
+		if (dbZugriff.checkConnection()) {
+			ResultSet abfrage = paketStationPaketModell.stationPaketeSuchen(dbZugriff.getStatement(), paketID);
+			while (abfrage.next()) {
+				list2.add(new PaketeModellStationTabelle(abfrage.getString(3), abfrage.getString(2),abfrage.getString(1)));
+			}
+			stationPaketeZuweisungsID.setCellValueFactory(new PropertyValueFactory<>("zuweisungsID"));
+			stationPaketeShopID.setCellValueFactory(new PropertyValueFactory<>("stationsID"));
+			stationPaketePaketID.setCellValueFactory(new PropertyValueFactory<>("paketID"));
+
+			tableStationPakete.setItems(list2);
+		}
+		tfStationPaketePaketID.setText("");
 	}
 
 	@FXML
 	void tablePaketePressed(MouseEvent event) throws SQLException {
-		
+
 		felderAusblenden();
-		
+
 		label1.setVisible(true);
 		label1.setText("KundenID verändern: ");
 
@@ -429,7 +493,7 @@ public class PaketeController implements Initializable {
 		tf6.setText(datum);
 		tf7.setText(uhrzeit);
 		tf8.setText(versicherung);
-		
+
 		setSelection("1");
 
 	}
@@ -437,12 +501,26 @@ public class PaketeController implements Initializable {
 	@FXML
 	void tableSpeditionPaketePressed(MouseEvent event) {
 		
+		label1.setVisible(true);
+		label1.setText("SpeditionsID ändern:");
+		
+		label2.setVisible(true);
+		label2.setText("PaketID ändern:");
+		
+		String paketID = tableSpeditionPakete.getSelectionModel().getSelectedItem().getPaketID();
+		String stationsID = tableSpeditionPakete.getSelectionModel().getSelectedItem().getSpeditionID();
+		
+		tf1.setVisible(true);
+		tf1.setText(stationsID);
+		tf2.setVisible(true);
+		tf2.setText(paketID);
+
 		setSelection("3");
 	}
 
 	@FXML
 	void tableStationPaketePressed(MouseEvent event) {
-		
+
 		felderAusblenden();
 
 		label1.setVisible(true);
@@ -459,7 +537,7 @@ public class PaketeController implements Initializable {
 
 		tf1.setText(stationsID);
 		tf2.setText(paketID);
-		
+
 		setSelection("2");
 
 	}
@@ -489,7 +567,7 @@ public class PaketeController implements Initializable {
 		tf8.setVisible(false);
 
 	}
-	
+
 	public void felderAusblenden() {
 		label1.setVisible(false);
 		label2.setVisible(false);

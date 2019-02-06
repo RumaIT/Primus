@@ -4,19 +4,19 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class PaketeModellSpeditionTabelle {
+public class PaketeModellStationTabelle {
 	
 	private String stationsID, zuweisungsID, paketID;
 
 
-	public PaketeModellSpeditionTabelle(String paketID, String stationsID, String zuweisungsID) {
+	public PaketeModellStationTabelle(String paketID, String stationsID, String zuweisungsID) {
 		
 		this.paketID = paketID;
 		this.stationsID = stationsID;
 		this.zuweisungsID = zuweisungsID;
 	}
 	
-	public PaketeModellSpeditionTabelle() {
+	public PaketeModellStationTabelle() {
 		
 	}
 	
@@ -40,6 +40,16 @@ public boolean aendereStationPaketDaten(Statement statement, String stationsID, 
 	statement.executeLargeUpdate(sql);
 	
 	return true;
+}
+
+public ResultSet stationPaketeSuchen(Statement statement, String paketID) throws SQLException {
+	
+	ResultSet abfrage = null;
+	String sql = "SELECT * FROM ShopPaketZuweisung "+
+				 "WHERE Pakete_IdPakete='"+paketID+"'";
+	abfrage = statement.executeQuery(sql);		
+	
+	return abfrage;
 }
 
 	
