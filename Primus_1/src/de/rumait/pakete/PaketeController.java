@@ -8,9 +8,13 @@ import java.util.ResourceBundle;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import com.sun.org.apache.xalan.internal.xsltc.dom.KeyIndex;
+import com.sun.prism.es2.ES2Graphics;
+
 import de.rumait.databse.Database;
 import de.rumait.mainLogin.LoginController;
 import de.rumait.mainLogin.LoginMain;
+import de.rumait.popUpWindow.PopUpWindow;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -151,7 +155,7 @@ public class PaketeController implements Initializable {
 	private PaketModel paketModel = new PaketModel();
 	private ObservableList<PaketeModellStationTabelle> list2 = FXCollections.observableArrayList();
 	private PaketeModellStationTabelle paketStationPaketModell = new PaketeModellStationTabelle();
-	private String selection;
+	private String selection ="0";
 	private ObservableList<SpeditionPaketeTabelleModel>list3 = FXCollections.observableArrayList();
 	private SpeditionPaketeTabelleModel speditionPaketeTabelleModel = new SpeditionPaketeTabelleModel();
 	// ---------------------------------------------------------------------
@@ -215,7 +219,7 @@ public class PaketeController implements Initializable {
 	}
 
 	@FXML
-	void btnDatenAendernPressed(ActionEvent event) throws SQLException {
+	void btnDatenAendernPressed(ActionEvent event) throws SQLException, IOException {
 
 		if (selection.equals("1")) {
 
@@ -267,6 +271,8 @@ public class PaketeController implements Initializable {
 				speditionPaketeTabelleModel.aendereDaten(dbZugriff.getStatement(), speditionID, paketID, zuweisungsID);
 			}
 			felderAusblenden();
+		}else {
+			PopUpWindow.getPopUpWindow("Eingabe Fehler", "Bitte wählen Sie einen Datensatz");
 		}
 	}
 
@@ -285,29 +291,35 @@ public class PaketeController implements Initializable {
 	}
 
 	@FXML
-	void btnPaketeAlleAnzeigenPressed(ActionEvent event) throws SQLException {
+	void btnPaketeAlleAnzeigenPressed(ActionEvent event) throws SQLException, IOException {
 
 		tablePakete.getItems().clear();
 
 		if (dbZugriff.checkConnection()) {
 			ResultSet abfrage = paketModel.getAllPackgesFromDatabase(dbZugriff.getStatement());
-			while (abfrage.next()) {
-				list.add(new PaketModel(abfrage.getString(1), abfrage.getString(2), abfrage.getString(3),
-						abfrage.getString(4), abfrage.getString(5), abfrage.getString(6), abfrage.getString(7),
-						abfrage.getString(8), abfrage.getString(9)));
+			if(abfrage.next()) {
+				abfrage.beforeFirst();
+				while (abfrage.next()) {
+					list.add(new PaketModel(abfrage.getString(1), abfrage.getString(2), abfrage.getString(3),
+							abfrage.getString(4), abfrage.getString(5), abfrage.getString(6), abfrage.getString(7),
+							abfrage.getString(8), abfrage.getString(9)));
+				}
+
+				paketePaketeID.setCellValueFactory(new PropertyValueFactory<>("paketID"));
+				paketeKundenID.setCellValueFactory(new PropertyValueFactory<>("kundenID"));
+				paketeGewicht.setCellValueFactory(new PropertyValueFactory<>("gewicht"));
+				paketeBreite.setCellValueFactory(new PropertyValueFactory<>("breite"));
+				paketeHoehe.setCellValueFactory(new PropertyValueFactory<>("hoehe"));
+				paketeVerfolgungsID.setCellValueFactory(new PropertyValueFactory<>("verfolgungsID"));
+				paketeStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
+				paketeDatum.setCellValueFactory(new PropertyValueFactory<>("datum"));
+				paketeUhrzeit.setCellValueFactory(new PropertyValueFactory<>("uhrzeit"));
+
+				tablePakete.setItems(list);
+			}else {
+				PopUpWindow.getPopUpWindow("Fehler bei der Suche", "Es wurden keine Einträge gefunden.");
 			}
-
-			paketePaketeID.setCellValueFactory(new PropertyValueFactory<>("paketID"));
-			paketeKundenID.setCellValueFactory(new PropertyValueFactory<>("kundenID"));
-			paketeGewicht.setCellValueFactory(new PropertyValueFactory<>("gewicht"));
-			paketeBreite.setCellValueFactory(new PropertyValueFactory<>("breite"));
-			paketeHoehe.setCellValueFactory(new PropertyValueFactory<>("hoehe"));
-			paketeVerfolgungsID.setCellValueFactory(new PropertyValueFactory<>("verfolgungsID"));
-			paketeStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
-			paketeDatum.setCellValueFactory(new PropertyValueFactory<>("datum"));
-			paketeUhrzeit.setCellValueFactory(new PropertyValueFactory<>("uhrzeit"));
-
-			tablePakete.setItems(list);
+			
 		}
 
 	}
@@ -318,7 +330,7 @@ public class PaketeController implements Initializable {
 	}
 
 	@FXML
-	void btnPaketeSuchenPressed(ActionEvent event) throws SQLException {
+	void btnPaketeSuchenPressed(ActionEvent event) throws SQLException, IOException {
 
 		tablePakete.getItems().clear();
 
@@ -330,23 +342,32 @@ public class PaketeController implements Initializable {
 
 			ResultSet abfrage = paketModel.searchForPackagesOnDatabse(dbZugriff.getStatement(), paketID, verfolgungsID,
 					nachname);
+			
+			if(abfrage.next()) {
+				abfrage.beforeFirst();
+				
+				while (abfrage.next()) {
 
-			while (abfrage.next()) {
+					list.add(new PaketModel(abfrage.getString(1), abfrage.getString(2), abfrage.getString(3),
+							abfrage.getString(4), abfrage.getString(5), abfrage.getString(6), abfrage.getString(7),
+							abfrage.getString(8), abfrage.getString(9)));
+				}
+				paketePaketeID.setCellValueFactory(new PropertyValueFactory<>("paketID"));
+				paketeKundenID.setCellValueFactory(new PropertyValueFactory<>("kundenID"));
+				paketeGewicht.setCellValueFactory(new PropertyValueFactory<>("gewicht"));
+				paketeBreite.setCellValueFactory(new PropertyValueFactory<>("breite"));
+				paketeHoehe.setCellValueFactory(new PropertyValueFactory<>("hoehe"));
+				paketeVerfolgungsID.setCellValueFactory(new PropertyValueFactory<>("verfolgungsID"));
+				paketeStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
+				paketeDatum.setCellValueFactory(new PropertyValueFactory<>("datum"));
+				paketeUhrzeit.setCellValueFactory(new PropertyValueFactory<>("uhrzeit"));
 
-				list.add(new PaketModel(abfrage.getString(1), abfrage.getString(2), abfrage.getString(3),
-						abfrage.getString(4), abfrage.getString(5), abfrage.getString(6), abfrage.getString(7),
-						abfrage.getString(8), abfrage.getString(9)));
+				
+				
+			}else {
+				PopUpWindow.getPopUpWindow("Fehler bei der Suche", "Es wurden keine Einträge gefunden.");
 			}
-			paketePaketeID.setCellValueFactory(new PropertyValueFactory<>("paketID"));
-			paketeKundenID.setCellValueFactory(new PropertyValueFactory<>("kundenID"));
-			paketeGewicht.setCellValueFactory(new PropertyValueFactory<>("gewicht"));
-			paketeBreite.setCellValueFactory(new PropertyValueFactory<>("breite"));
-			paketeHoehe.setCellValueFactory(new PropertyValueFactory<>("hoehe"));
-			paketeVerfolgungsID.setCellValueFactory(new PropertyValueFactory<>("verfolgungsID"));
-			paketeStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
-			paketeDatum.setCellValueFactory(new PropertyValueFactory<>("datum"));
-			paketeUhrzeit.setCellValueFactory(new PropertyValueFactory<>("uhrzeit"));
-
+			
 			tablePakete.setItems(list);
 			tfPaketeNachnameSuchen.setText("");
 			tfPaketePaketeIDSuchen.setText("");
@@ -355,38 +376,49 @@ public class PaketeController implements Initializable {
 	}
 
 	@FXML
-	void btnSpeditionPaketeAlleAnzeigenPressed(ActionEvent event) throws SQLException {
+	void btnSpeditionPaketeAlleAnzeigenPressed(ActionEvent event) throws SQLException, IOException {
 		
 		tableSpeditionPakete.getItems().clear();
 		if(dbZugriff.checkConnection()) {
 			ResultSet abfrage = speditionPaketeTabelleModel.getAllInfoFromDatabase(dbZugriff.getStatement());
-			while(abfrage.next()) {
-				list3.add(new SpeditionPaketeTabelleModel(abfrage.getString(2), abfrage.getString(3), abfrage.getString(1)));
+			if(abfrage.next()) {
+				abfrage.beforeFirst();
+				while(abfrage.next()) {
+					list3.add(new SpeditionPaketeTabelleModel(abfrage.getString(2), abfrage.getString(3), abfrage.getString(1)));
+				}
+				speditionPaketeZuweisungsID.setCellValueFactory(new PropertyValueFactory<>("zuweisungsID"));
+				speditionPaketePaketID.setCellValueFactory(new PropertyValueFactory<>("paketID"));
+				speditionPaketeSpeditionsID.setCellValueFactory(new PropertyValueFactory<>("speditionID"));
+				System.out.println("Test");
+				tableSpeditionPakete.setItems(list3);
+			}else {
+				PopUpWindow.getPopUpWindow("Fehler bei der Suche", "Es wurden keine Einträge gefunden.");
 			}
-			speditionPaketeZuweisungsID.setCellValueFactory(new PropertyValueFactory<>("zuweisungsID"));
-			speditionPaketePaketID.setCellValueFactory(new PropertyValueFactory<>("paketID"));
-			speditionPaketeSpeditionsID.setCellValueFactory(new PropertyValueFactory<>("speditionID"));
-			System.out.println("Test");
-			tableSpeditionPakete.setItems(list3);
+			
 		}
 
 	}
 
 	@FXML
-	void btnSpeditionPaketeSuchenPressed(ActionEvent event) throws SQLException {
+	void btnSpeditionPaketeSuchenPressed(ActionEvent event) throws SQLException, IOException {
 		tableSpeditionPakete.getItems().clear();
 		String paketID = tfSpeditionPaketePaketID.getText();
 		
 		if(dbZugriff.checkConnection()) {
 			ResultSet abfrage = speditionPaketeTabelleModel.searchTableSpeditionPakete(dbZugriff.getStatement(), paketID);
-			while(abfrage.next()) {
-				list3.add(new SpeditionPaketeTabelleModel(abfrage.getString(2), abfrage.getString(3), abfrage.getString(1)));
+			if(abfrage.next()) {
+				abfrage.beforeFirst();
+				while(abfrage.next()) {
+					list3.add(new SpeditionPaketeTabelleModel(abfrage.getString(2), abfrage.getString(3), abfrage.getString(1)));
+				}
+				speditionPaketeZuweisungsID.setCellValueFactory(new PropertyValueFactory<>("zuweisungsID"));
+				speditionPaketePaketID.setCellValueFactory(new PropertyValueFactory<>("paketID"));
+				speditionPaketeSpeditionsID.setCellValueFactory(new PropertyValueFactory<>("speditionID"));
+				
+				tableSpeditionPakete.setItems(list3);
+			}else {
+				PopUpWindow.getPopUpWindow("Fehler bei der Suche", "Es wurden keine Einträge gefunden.");
 			}
-			speditionPaketeZuweisungsID.setCellValueFactory(new PropertyValueFactory<>("zuweisungsID"));
-			speditionPaketePaketID.setCellValueFactory(new PropertyValueFactory<>("paketID"));
-			speditionPaketeSpeditionsID.setCellValueFactory(new PropertyValueFactory<>("speditionID"));
-			
-			tableSpeditionPakete.setItems(list3);
 		}
 		
 		tfSpeditionPaketePaketID.setText("");
@@ -394,40 +426,52 @@ public class PaketeController implements Initializable {
 
 
 	@FXML
-	void btnStationPaketeAlleAnzeigenPressed(ActionEvent event) throws SQLException {
+	void btnStationPaketeAlleAnzeigenPressed(ActionEvent event) throws SQLException, IOException {
 
 		tableStationPakete.getItems().clear();
 
 		if (dbZugriff.checkConnection()) {
 			ResultSet abfrage = paketStationPaketModell.getStationPaketAll(dbZugriff.getStatement());
-			while (abfrage.next()) {
-				list2.add(new PaketeModellStationTabelle(abfrage.getString(3), abfrage.getString(2),
-						abfrage.getString(1)));
-			}
-			stationPaketeZuweisungsID.setCellValueFactory(new PropertyValueFactory<>("zuweisungsID"));
-			stationPaketeShopID.setCellValueFactory(new PropertyValueFactory<>("stationsID"));
-			stationPaketePaketID.setCellValueFactory(new PropertyValueFactory<>("paketID"));
+			if(abfrage.next()) {
+				abfrage.beforeFirst();
+				while (abfrage.next()) {
+					list2.add(new PaketeModellStationTabelle(abfrage.getString(3), abfrage.getString(2),
+							abfrage.getString(1)));
+				}
+				stationPaketeZuweisungsID.setCellValueFactory(new PropertyValueFactory<>("zuweisungsID"));
+				stationPaketeShopID.setCellValueFactory(new PropertyValueFactory<>("stationsID"));
+				stationPaketePaketID.setCellValueFactory(new PropertyValueFactory<>("paketID"));
 
+			}else {
+				PopUpWindow.getPopUpWindow("Fehler bei der Suche", "Es wurden keine Einträge gefunden.");
+			}
+			
 			tableStationPakete.setItems(list2);
 		}
 
 	}
 
 	@FXML
-	void btnStationPaketeSuchenPressed(ActionEvent event) throws SQLException {
+	void btnStationPaketeSuchenPressed(ActionEvent event) throws SQLException, IOException {
 		tableStationPakete.getItems().clear();
 		String paketID = tfStationPaketePaketID.getText();
 
 		if (dbZugriff.checkConnection()) {
 			ResultSet abfrage = paketStationPaketModell.stationPaketeSuchen(dbZugriff.getStatement(), paketID);
-			while (abfrage.next()) {
-				list2.add(new PaketeModellStationTabelle(abfrage.getString(3), abfrage.getString(2),abfrage.getString(1)));
-			}
-			stationPaketeZuweisungsID.setCellValueFactory(new PropertyValueFactory<>("zuweisungsID"));
-			stationPaketeShopID.setCellValueFactory(new PropertyValueFactory<>("stationsID"));
-			stationPaketePaketID.setCellValueFactory(new PropertyValueFactory<>("paketID"));
+			if(abfrage.next()) {
+				abfrage.beforeFirst();
+				while (abfrage.next()) {
+					list2.add(new PaketeModellStationTabelle(abfrage.getString(3), abfrage.getString(2),abfrage.getString(1)));
+				}
+				stationPaketeZuweisungsID.setCellValueFactory(new PropertyValueFactory<>("zuweisungsID"));
+				stationPaketeShopID.setCellValueFactory(new PropertyValueFactory<>("stationsID"));
+				stationPaketePaketID.setCellValueFactory(new PropertyValueFactory<>("paketID"));
 
-			tableStationPakete.setItems(list2);
+				tableStationPakete.setItems(list2);
+			}else {
+				PopUpWindow.getPopUpWindow("Fehler bei der Suche","Es wurden keine Einträge gefunden.");
+			}
+			
 		}
 		tfStationPaketePaketID.setText("");
 	}
@@ -435,110 +479,127 @@ public class PaketeController implements Initializable {
 	@FXML
 	void tablePaketePressed(MouseEvent event) throws SQLException {
 
-		felderAusblenden();
+		if(tablePakete.getItems().isEmpty() || tablePakete.getSelectionModel().getSelectedCells().isEmpty()) {
+			
+		}else {
+			felderAusblenden();
 
-		label1.setVisible(true);
-		label1.setText("KundenID verändern: ");
+			label1.setVisible(true);
+			label1.setText("KundenID verändern: ");
 
-		label2.setVisible(true);
-		label2.setText("Gewicht anpassen:");
+			label2.setVisible(true);
+			label2.setText("Gewicht anpassen:");
 
-		label3.setVisible(true);
-		label3.setText("Breite anpassen");
+			label3.setVisible(true);
+			label3.setText("Breite anpassen");
 
-		label4.setVisible(true);
-		label4.setText("Höhe Anpassen:");
+			label4.setVisible(true);
+			label4.setText("Höhe Anpassen:");
 
-		label5.setVisible(true);
-		label5.setText("Status ändern");
+			label5.setVisible(true);
+			label5.setText("Status ändern");
 
-		label6.setVisible(true);
-		label6.setText("Datum ändern:");
+			label6.setVisible(true);
+			label6.setText("Datum ändern:");
 
-		label7.setVisible(true);
-		label7.setText("Uhrzeit ändern");
+			label7.setVisible(true);
+			label7.setText("Uhrzeit ändern");
 
-		label8.setVisible(true);
-		label8.setText("Versicherung ändern: ");
+			label8.setVisible(true);
+			label8.setText("Versicherung ändern: ");
 
-		tf1.setVisible(true);
-		tf2.setVisible(true);
-		tf3.setVisible(true);
-		tf4.setVisible(true);
-		tf5.setVisible(true);
-		tf6.setVisible(true);
-		tf7.setVisible(true);
-		tf8.setVisible(true);
+			tf1.setVisible(true);
+			tf2.setVisible(true);
+			tf3.setVisible(true);
+			tf4.setVisible(true);
+			tf5.setVisible(true);
+			tf6.setVisible(true);
+			tf7.setVisible(true);
+			tf8.setVisible(true);
 
-		String kundenID = tablePakete.getSelectionModel().getSelectedItem().getKundenID();
-		String gewicht = tablePakete.getSelectionModel().getSelectedItem().getGewicht();
-		String breite = tablePakete.getSelectionModel().getSelectedItem().getBreite();
-		String hoehe = tablePakete.getSelectionModel().getSelectedItem().getHoehe();
-		String staus = tablePakete.getSelectionModel().getSelectedItem().getStatus();
-		String datum = tablePakete.getSelectionModel().getSelectedItem().getDatum();
-		String uhrzeit = tablePakete.getSelectionModel().getSelectedItem().getUhrzeit();
-		String versicherung = "0";
+			String kundenID = tablePakete.getSelectionModel().getSelectedItem().getKundenID();
+			String gewicht = tablePakete.getSelectionModel().getSelectedItem().getGewicht();
+			String breite = tablePakete.getSelectionModel().getSelectedItem().getBreite();
+			String hoehe = tablePakete.getSelectionModel().getSelectedItem().getHoehe();
+			String staus = tablePakete.getSelectionModel().getSelectedItem().getStatus();
+			String datum = tablePakete.getSelectionModel().getSelectedItem().getDatum();
+			String uhrzeit = tablePakete.getSelectionModel().getSelectedItem().getUhrzeit();
+			String versicherung = "0";
 
-		String paketID = tablePakete.getSelectionModel().getSelectedItem().getPaketID();
+			String paketID = tablePakete.getSelectionModel().getSelectedItem().getPaketID();
 
-		if (dbZugriff.checkConnection()) {
-			versicherung = String.valueOf(paketModel.getVersicherung(dbZugriff.getStatement(), paketID));
+			if (dbZugriff.checkConnection()) {
+				versicherung = String.valueOf(paketModel.getVersicherung(dbZugriff.getStatement(), paketID));
+			}
+
+			tf1.setText(kundenID);
+			tf2.setText(gewicht);
+			tf3.setText(breite);
+			tf4.setText(hoehe);
+			tf5.setText(staus);
+			tf6.setText(datum);
+			tf7.setText(uhrzeit);
+			tf8.setText(versicherung);
+
+			setSelection("1");
+
 		}
-
-		tf1.setText(kundenID);
-		tf2.setText(gewicht);
-		tf3.setText(breite);
-		tf4.setText(hoehe);
-		tf5.setText(staus);
-		tf6.setText(datum);
-		tf7.setText(uhrzeit);
-		tf8.setText(versicherung);
-
-		setSelection("1");
-
 	}
 
 	@FXML
 	void tableSpeditionPaketePressed(MouseEvent event) {
 		
-		label1.setVisible(true);
-		label1.setText("SpeditionsID ändern:");
-		
-		label2.setVisible(true);
-		label2.setText("PaketID ändern:");
-		
-		String paketID = tableSpeditionPakete.getSelectionModel().getSelectedItem().getPaketID();
-		String stationsID = tableSpeditionPakete.getSelectionModel().getSelectedItem().getSpeditionID();
-		
-		tf1.setVisible(true);
-		tf1.setText(stationsID);
-		tf2.setVisible(true);
-		tf2.setText(paketID);
+		if(tableSpeditionPakete.getItems().isEmpty() || tableSpeditionPakete.getSelectionModel().getSelectedCells().isEmpty()) {
+			System.out.println("Kein Eintrag Vorhanden Fenster");
+		}else {
+			
+			label1.setVisible(true);
+			label1.setText("SpeditionsID ändern:");
+			
+			label2.setVisible(true);
+			label2.setText("PaketID ändern:");
+			
+			String paketID = tableSpeditionPakete.getSelectionModel().getSelectedItem().getPaketID();
+			String stationsID = tableSpeditionPakete.getSelectionModel().getSelectedItem().getSpeditionID();
+			
+			tf1.setVisible(true);
+			tf1.setText(stationsID);
+			tf2.setVisible(true);
+			tf2.setText(paketID);
 
-		setSelection("3");
+			setSelection("3");
+			
+		}
 	}
 
 	@FXML
 	void tableStationPaketePressed(MouseEvent event) {
+		
+		if(tableStationPakete.getItems().isEmpty() || tableStationPakete.getSelectionModel().getSelectedCells().isEmpty()) {
+			System.out.println("Keine Einträge Fenster");
+		}else {
+			
+			felderAusblenden();
 
-		felderAusblenden();
+			label1.setVisible(true);
+			label1.setText("Anderen Station zuweisen: ");
 
-		label1.setVisible(true);
-		label1.setText("Anderen Station zuweisen: ");
+			label2.setVisible(true);
+			label2.setText("Anderes Paket zuweisen:");
 
-		label2.setVisible(true);
-		label2.setText("Anderes Paket zuweisen:");
+			tf1.setVisible(true);
+			tf2.setVisible(true);
 
-		tf1.setVisible(true);
-		tf2.setVisible(true);
+			String stationsID = tableStationPakete.getSelectionModel().getSelectedItem().getStationsID();
+			String paketID = tableStationPakete.getSelectionModel().getSelectedItem().getPaketID();
 
-		String stationsID = tableStationPakete.getSelectionModel().getSelectedItem().getStationsID();
-		String paketID = tableStationPakete.getSelectionModel().getSelectedItem().getPaketID();
+			tf1.setText(stationsID);
+			tf2.setText(paketID);
 
-		tf1.setText(stationsID);
-		tf2.setText(paketID);
+			setSelection("2");
+		}
 
-		setSelection("2");
+		
 
 	}
 
@@ -547,6 +608,9 @@ public class PaketeController implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
 		showUserLabel.setText(LoginController.username);
+		tablePakete.setPlaceholder(new Label("Keine Einträge vorhanden"));
+		tableSpeditionPakete.setPlaceholder(new Label("Keine Einträge vorhanden"));
+		tableStationPakete.setPlaceholder(new Label("Keine Einträge vorhanden"));
 
 		label1.setVisible(false);
 		label2.setVisible(false);

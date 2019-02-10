@@ -13,7 +13,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="520.0" style="-fx-background-color: #F0F8FF#F0F8FF;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.rumait.mainLogin.LoginController">
    <children>
-      <JFXButton fx:id="loginButton" layoutX="225.0" layoutY="376.0" onAction="#loginPressed" prefHeight="34.0" prefWidth="72.0" ripplerFill="RED" style="-fx-background-color: #75A3E7#75A3E7;" text="Login">
+      <JFXButton fx:id="loginButton" layoutX="225.0" layoutY="376.0" onAction="#loginPressed" prefHeight="34.0" prefWidth="72.0" ripplerFill="RED" style="-fx-background-color: #75A3E7#75A3E7;" text="Login" AnchorPane.bottomAnchor="90.0">
          <effect>
             <PerspectiveTransform />
          </effect>
@@ -26,15 +26,15 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <JFXTextField fx:id="userField" focusColor="#2700ff" layoutX="161.0" layoutY="237.0" prefHeight="27.0" prefWidth="199.0" promptText="Benutzername" unFocusColor="BLACK" />
-      <JFXPasswordField fx:id="passField" focusColor="#2700ff" layoutX="161.0" layoutY="296.0" onKeyReleased="#passwordKeyReleased" prefHeight="27.0" prefWidth="199.0" promptText="Passwort" unFocusColor="BLACK" />
-      <Label layoutX="161.0" layoutY="35.0" text="ParcelMule Center">
+      <JFXTextField fx:id="userField" focusColor="#2700ff" layoutX="161.0" layoutY="237.0" prefHeight="27.0" prefWidth="199.0" promptText="Benutzername" unFocusColor="BLACK" AnchorPane.bottomAnchor="236.0" AnchorPane.topAnchor="237.0" />
+      <JFXPasswordField fx:id="passField" focusColor="#2700ff" layoutX="161.0" layoutY="296.0" onKeyReleased="#passwordKeyReleased" prefHeight="27.0" prefWidth="199.0" promptText="Passwort" unFocusColor="BLACK" AnchorPane.bottomAnchor="177.0" AnchorPane.topAnchor="296.0" />
+      <Label layoutX="161.0" layoutY="35.0" prefHeight="27.0" prefWidth="199.0" text="ParcelMule Center" AnchorPane.leftAnchor="175.0" AnchorPane.rightAnchor="146.0" AnchorPane.topAnchor="30.0">
          <font>
             <Font name="Arial" size="24.0" />
          </font>
       </Label>
-      <Circle fx:id="statusCircle" layoutX="140.0" layoutY="474.0" radius="7.0" smooth="false" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
-      <Label layoutX="14.0" layoutY="465.0" text="Datenbankstatus: " />
+      <Circle fx:id="statusCircle" layoutX="140.0" layoutY="474.0" radius="7.0" smooth="false" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="133.0" />
+      <Label layoutX="14.0" layoutY="465.0" text="Datenbankstatus: " AnchorPane.bottomAnchor="18.0" AnchorPane.leftAnchor="14.0" />
       <ImageView fitHeight="147.0" fitWidth="150.0" layoutX="186.0" layoutY="62.0">
          <image>
             <Image url="@../../../../../../../Downloads/724package_100522.png" />

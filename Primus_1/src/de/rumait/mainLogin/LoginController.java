@@ -48,8 +48,8 @@ public class LoginController implements Initializable {
 			System.out.println("Login erfolgreich");
 
 		} else {
-			System.out.println("Login fehlgeschlagen");
-			PopUpWindow.getPopUpWindow("Login fehlgeschlagen");
+			
+			PopUpWindow.getPopUpWindow("Login Fehler", "Die eingegebene Benutzerdaten stimmen nicht.");;
 		}
 		
 

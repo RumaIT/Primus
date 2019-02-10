@@ -87,20 +87,14 @@ public class ShopModel {
 
 	}
 
-	public ResultSet getStationsFromSearch(Statement statement, String stationID, String stationName) {
+	public ResultSet getStationsFromSearch(Statement statement, String stationID, String stationName) throws SQLException {
 		ResultSet resultSet = null;
 
 		String sql = "SELECT Shop.idShop, Shop.ShopName, Shop.Benutzername, Shop.Passwort, Shop.Strasse, Orte.PLZ, Orte.Ort FROM Shop "
 				+ "INNER JOIN Orte ON Shop.Orte_idOrte = Orte.idOrte " + "WHERE idShop='" + stationID
 				+ "' OR ShopName='" + stationName + "'";
-		try {
-			System.out.println("Stationen gezielt abfragen...");
+		
 			resultSet = statement.executeQuery(sql);
-		} catch (SQLException e) {
-			System.out.println("Stationenabfrage fehlgeschlagen!");
-			e.printStackTrace();
-		}
-		System.out.println("Stationenabfrage erfolgreich");
 		return resultSet;
 	}
 

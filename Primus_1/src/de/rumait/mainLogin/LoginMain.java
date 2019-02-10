@@ -29,6 +29,8 @@ public class LoginMain extends Application {
 		Stage stage = new Stage();
 		stage.setScene(scene);
 		stage.show();
+		stage.setResizable(false);
+		stage.setTitle("Login Fenster -Adminpanel");
 	}
 
 }

@@ -9,10 +9,12 @@ import java.util.ResourceBundle;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import com.sun.org.apache.bcel.internal.generic.POP;
 
 import de.rumait.databse.Database;
 import de.rumait.mainLogin.LoginController;
 import de.rumait.mainLogin.LoginMain;
+import de.rumait.popUpWindow.PopUpWindow;
 import de.rumait.shop.ShopModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -179,33 +181,39 @@ public class SpeditionController implements Initializable {
 	
 	
 	@FXML
-    void btnAlleSpeditionenSuchenPressed(ActionEvent event) throws SQLException {
+    void btnAlleSpeditionenSuchenPressed(ActionEvent event) throws SQLException, IOException {
 		
 		speditionTabelle.getItems().clear();
 		
 		if(dbZugriff.checkConnection()) {
 			
 			ResultSet abfrage = speditionModel.getAllSpeditionen(dbZugriff.getStatement());
-			
-			while (abfrage.next()) {
+			if(abfrage.next()) {
+				abfrage.beforeFirst();
+				while (abfrage.next()) {
+					
+					list.add(new SpeditionModel(abfrage.getString(1), abfrage.getString(2), abfrage.getString(3), abfrage.getString(4), abfrage.getString(5), abfrage.getString(6), abfrage.getString(7)));
+				}
 				
-				list.add(new SpeditionModel(abfrage.getString(1), abfrage.getString(2), abfrage.getString(3), abfrage.getString(4), abfrage.getString(5), abfrage.getString(6), abfrage.getString(7)));
+				rowSpeditionID.setCellValueFactory(new PropertyValueFactory<>("spediID"));
+				rowSpeditionsName.setCellValueFactory(new PropertyValueFactory<>("spediName"));
+				rowBenutzername.setCellValueFactory(new PropertyValueFactory<>("spediBenutzerName"));
+				rowPasswort.setCellValueFactory(new PropertyValueFactory<>("passwort"));
+				rowStrasse.setCellValueFactory(new PropertyValueFactory<>("strasse"));
+				rowPLZ.setCellValueFactory(new PropertyValueFactory<>("plz"));
+				rowOrt.setCellValueFactory(new PropertyValueFactory<>("ort"));
+				
+				speditionTabelle.setItems(list);
+			}else {
+				PopUpWindow.getPopUpWindow("Fehler bei der Suche", "Es wurden keine Einträge gefunden");
 			}
 			
-			rowSpeditionID.setCellValueFactory(new PropertyValueFactory<>("spediID"));
-			rowSpeditionsName.setCellValueFactory(new PropertyValueFactory<>("spediName"));
-			rowBenutzername.setCellValueFactory(new PropertyValueFactory<>("spediBenutzerName"));
-			rowPasswort.setCellValueFactory(new PropertyValueFactory<>("passwort"));
-			rowStrasse.setCellValueFactory(new PropertyValueFactory<>("strasse"));
-			rowPLZ.setCellValueFactory(new PropertyValueFactory<>("plz"));
-			rowOrt.setCellValueFactory(new PropertyValueFactory<>("ort"));
-			
-			speditionTabelle.setItems(list);
 		}
     }
 	
 	@FXML   
 	void btnChangePressed(ActionEvent event) throws SQLException {
+		
 		
 		String spediID = lblSpediIdShow.getText();
 		String spediName = tfSpediNameChange.getText();
@@ -258,7 +266,7 @@ public class SpeditionController implements Initializable {
 
 	   
 	@FXML  
-	void btnSpeditionSuchenPressed(ActionEvent event) throws SQLException {
+	void btnSpeditionSuchenPressed(ActionEvent event) throws SQLException, IOException {
 		
 		speditionTabelle.getItems().clear();
 		
@@ -268,20 +276,27 @@ public class SpeditionController implements Initializable {
 		if(dbZugriff.checkConnection()) {
 			
 		ResultSet abfrage = speditionModel.getSpeditionFromSearch(dbZugriff.getStatement(), spediID, spediName);
-
-		while (abfrage.next()) {
-			list.add(new SpeditionModel(abfrage.getString(1), abfrage.getString(2), abfrage.getString(3), abfrage.getString(4), abfrage.getString(5), abfrage.getString(6), abfrage.getString(7)));
+		
+		if(abfrage.next()) {
+			abfrage.beforeFirst();
+			
+			while (abfrage.next()) {
+				list.add(new SpeditionModel(abfrage.getString(1), abfrage.getString(2), abfrage.getString(3), abfrage.getString(4), abfrage.getString(5), abfrage.getString(6), abfrage.getString(7)));
+			}
+			
+			rowSpeditionID.setCellValueFactory(new PropertyValueFactory<>("spediID"));
+			rowSpeditionsName.setCellValueFactory(new PropertyValueFactory<>("spediName"));
+			rowBenutzername.setCellValueFactory(new PropertyValueFactory<>("spediBenutzerName"));
+			rowPasswort.setCellValueFactory(new PropertyValueFactory<>("passwort"));
+			rowStrasse.setCellValueFactory(new PropertyValueFactory<>("strasse"));
+			rowPLZ.setCellValueFactory(new PropertyValueFactory<>("plz"));
+			rowOrt.setCellValueFactory(new PropertyValueFactory<>("ort"));
+			
+			speditionTabelle.setItems(list);
+			
+		}else {
+			PopUpWindow.getPopUpWindow("Fehler bei der Suche", "Es konnten keine Einträge gefunden werden.");
 		}
-		
-		rowSpeditionID.setCellValueFactory(new PropertyValueFactory<>("spediID"));
-		rowSpeditionsName.setCellValueFactory(new PropertyValueFactory<>("spediName"));
-		rowBenutzername.setCellValueFactory(new PropertyValueFactory<>("spediBenutzerName"));
-		rowPasswort.setCellValueFactory(new PropertyValueFactory<>("passwort"));
-		rowStrasse.setCellValueFactory(new PropertyValueFactory<>("strasse"));
-		rowPLZ.setCellValueFactory(new PropertyValueFactory<>("plz"));
-		rowOrt.setCellValueFactory(new PropertyValueFactory<>("ort"));
-		
-		speditionTabelle.setItems(list);
 		
 		}
 		
@@ -311,21 +326,28 @@ public class SpeditionController implements Initializable {
 	@FXML
     void spediTabellePressed(MouseEvent event) {
 		
-		String spediID = speditionTabelle.getSelectionModel().getSelectedItem().getSpediID();
-		String spediName = speditionTabelle.getSelectionModel().getSelectedItem().getSpediName();
-		String spediBenutzername = speditionTabelle.getSelectionModel().getSelectedItem().getSpediBenutzerName();
-		String passwort = speditionTabelle.getSelectionModel().getSelectedItem().getPasswort();
-		String strasse = speditionTabelle.getSelectionModel().getSelectedItem().getStrasse();
-		String plz = speditionTabelle.getSelectionModel().getSelectedItem().getPlz();
-		String ort = speditionTabelle.getSelectionModel().getSelectedItem().getOrt();
+		if(speditionTabelle.getItems().isEmpty() || speditionTabelle.getSelectionModel().getSelectedCells().isEmpty()) {
+			System.out.println("Keine Einträge Fenster");
+		}else {
+			
+			String spediID = speditionTabelle.getSelectionModel().getSelectedItem().getSpediID();
+			String spediName = speditionTabelle.getSelectionModel().getSelectedItem().getSpediName();
+			String spediBenutzername = speditionTabelle.getSelectionModel().getSelectedItem().getSpediBenutzerName();
+			String passwort = speditionTabelle.getSelectionModel().getSelectedItem().getPasswort();
+			String strasse = speditionTabelle.getSelectionModel().getSelectedItem().getStrasse();
+			String plz = speditionTabelle.getSelectionModel().getSelectedItem().getPlz();
+			String ort = speditionTabelle.getSelectionModel().getSelectedItem().getOrt();
+			
+			lblSpediIdShow.setText(spediID);
+			tfSpediNameChange.setText(spediName);
+			tfBenutzernameChange.setText(spediBenutzername);
+			tfPasswortChange.setText(passwort);
+			tfStrasseChange.setText(strasse);
+			tfPLZChange.setText(plz);
+			tfOrtChange.setText(ort);
+		}
 		
-		lblSpediIdShow.setText(spediID);
-		tfSpediNameChange.setText(spediName);
-		tfBenutzernameChange.setText(spediBenutzername);
-		tfPasswortChange.setText(passwort);
-		tfStrasseChange.setText(strasse);
-		tfPLZChange.setText(plz);
-		tfOrtChange.setText(ort);
+		
     }
 
 	
@@ -335,7 +357,7 @@ public class SpeditionController implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
 		showUserLabel.setText(LoginController.username);
-		
+		speditionTabelle.setPlaceholder(new Label("Keine Einträge vorhanden"));
 	}
 
 	// -------------------------------------------------------------------

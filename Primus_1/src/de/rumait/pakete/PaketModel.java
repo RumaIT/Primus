@@ -111,10 +111,13 @@ public class PaketModel {
 						"WHERE Pakete.idPakete='"+paketID+"'";
 		
 		statement.execute(sql);
+		System.out.println("Speditionszuweisung gelöscht");
 		statement.execute(sql2);
+		System.out.println("Stationszuweisung gelöscht");
 		statement.execute(sql3);
+		System.out.println("Paketverfolgung gelöscht");
 		statement.execute(sql4);
-		
+		System.out.println("Paket gelöscht - Löschvorgang abgeschlossen");
 		return true;
 	}
 	

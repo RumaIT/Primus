@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="753.0" prefWidth="1312.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.rumait.kunden.KundenController">
+<AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#tablePressed" prefHeight="753.0" prefWidth="1312.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.rumait.kunden.KundenController">
    <children>
       <Pane prefHeight="85.0" prefWidth="1312.0" style="-fx-background-color: #FF3B3F;">
          <children>
@@ -66,5 +71,90 @@
             </JFXButton>
          </children>
       </Pane>
+      <TableView fx:id="tableKunden" layoutX="193.0" layoutY="145.0" onMouseClicked="#tablePressed" prefHeight="195.0" prefWidth="737.0">
+        <columns>
+          <TableColumn fx:id="rowKundenID" prefWidth="73.00001525878906" text="Kunden ID" />
+          <TableColumn fx:id="rowName" prefWidth="82.0" text="Name" />
+            <TableColumn fx:id="rowNachname" prefWidth="78.0" text="Nachname" />
+            <TableColumn fx:id="rowStrasse" prefWidth="120.0" text="Strasse" />
+            <TableColumn fx:id="rowPLZ" prefWidth="66.0" text="PLZ" />
+            <TableColumn fx:id="rowOrt" prefWidth="110.0" text="Ort" />
+            <TableColumn fx:id="rowStationsID" prefWidth="69.5" text="Station ID" />
+            <TableColumn fx:id="rowStationsName" prefWidth="137.5" text="Station Name" />
+        </columns>
+      </TableView>
+      <Label layoutX="235.0" layoutY="108.0" text="Übersicht:">
+         <font>
+            <Font name="Arial Black" size="17.0" />
+         </font>
+      </Label>
+      <Label layoutX="938.0" layoutY="105.0" text="Kunden suchen:">
+         <font>
+            <Font name="Arial Black" size="17.0" />
+         </font>
+      </Label>
+      <RadioButton fx:id="rbKundenID" layoutX="960.0" layoutY="185.0" mnemonicParsing="false" text="Kunden ID" />
+      <Label layoutX="996.0" layoutY="137.0" text="Bitte Suchkriterium anklicken" />
+      <RadioButton fx:id="rbNachname" layoutX="1075.0" layoutY="185.0" mnemonicParsing="false" text="Nachname" />
+      <RadioButton fx:id="rbStrasse" layoutX="1190.0" layoutY="185.0" mnemonicParsing="false" text="Strasse" />
+      <RadioButton fx:id="rbPLZ" layoutX="960.0" layoutY="220.0" mnemonicParsing="false" prefHeight="21.0" prefWidth="56.0" text="PLZ" />
+      <RadioButton fx:id="rbStationsName" layoutX="1075.0" layoutY="220.0" mnemonicParsing="false" text="Stationsname" />
+      <RadioButton fx:id="rbStationsID" layoutX="1190.0" layoutY="220.0" mnemonicParsing="false" text="StationsID" />
+      <JFXTextField fx:id="tfSuchen" layoutX="1048.0" layoutY="251.0" promptText="Bitte eingeben..." />
+      <JFXButton fx:id="btnKundenSuchen" layoutX="1067.0" layoutY="299.0" onAction="#btnKundenSuchenPressed" prefHeight="39.0" prefWidth="97.0" style="-fx-background-color: #969696#969696;" text="Suchen" textFill="WHITE">
+         <font>
+            <Font name="Arial Black" size="15.0" />
+         </font>
+      </JFXButton>
+      <Label layoutX="196.0" layoutY="380.0" text="Bestehende Kunden bearbeiten:">
+         <font>
+            <Font name="Arial Black" size="17.0" />
+         </font>
+      </Label>
+      <Label layoutX="210.0" layoutY="414.0" text="Bitte erst suchen und betreffenden Kunden in der Tabelle auswählen" />
+      <JFXTextField fx:id="tf1" layoutX="213.0" layoutY="477.0" />
+      <JFXTextField fx:id="tf2" layoutX="411.0" layoutY="475.0" />
+      <JFXTextField fx:id="tf3" layoutX="603.0" layoutY="478.0" />
+      <JFXTextField fx:id="tf4" layoutX="223.0" layoutY="570.0" />
+      <JFXTextField fx:id="tf5" layoutX="408.0" layoutY="571.0" />
+      <JFXTextField fx:id="tf6" layoutX="602.0" layoutY="571.0" />
+      <JFXButton fx:id="btnDatenAendern" layoutX="414.0" layoutY="654.0" onAction="#btnDatenAendernPressed" prefHeight="39.0" prefWidth="151.0" style="-fx-background-color: #969696#969696 #969696#969696;" text="Daten Ändern" textFill="WHITE">
+         <font>
+            <Font name="Arial Black" size="16.0" />
+         </font>
+      </JFXButton>
+      <Line endX="-100.0" endY="256.0" layoutX="908.0" layoutY="497.0" startX="-100.0" startY="-126.37161254882812" />
+      <Line endX="-517.0" endY="131.76397705078125" layoutX="702.0" layoutY="238.0" startX="610.0" startY="131.76397705078125" />
+      <Label layoutX="819.0" layoutY="380.0" text="Kunden entfernen:">
+         <font>
+            <Font name="Arial Black" size="17.0" />
+         </font>
+      </Label>
+      <Label layoutX="825.0" layoutY="412.0" text="Achtung! Dieser Schritt entfernt auch alle mit dem Kunden verknüpfte Pakete " />
+      <JFXTextField fx:id="tfKundenIDLoeschen" layoutX="987.0" layoutY="457.0" promptText="Kunden ID" />
+      <JFXPasswordField fx:id="tfPasswortLoeschen" layoutX="988.0" layoutY="509.0" promptText="Admin Passwort" />
+      <JFXButton fx:id="btnLoeschen" layoutX="968.0" layoutY="559.0" onAction="#btnLoeschenPressed" prefHeight="39.0" prefWidth="182.0" style="-fx-background-color: #f13333#f13333;" text="Kunden Löschen" textFill="WHITE">
+         <font>
+            <Font name="Arial Black" size="16.0" />
+         </font>
+      </JFXButton>
+      <Label layoutX="825.0" layoutY="640.0" text="Kunden anlegen:">
+         <font>
+            <Font name="Arial Black" size="17.0" />
+         </font>
+      </Label>
+      <JFXButton fx:id="btnAnlegen" layoutX="990.0" layoutY="684.0" onAction="#btnAnlegenPressed" prefHeight="39.0" prefWidth="182.0" style="-fx-background-color: #4dbb4d#4dbb4d;" text="Kunden Anlegen" textFill="WHITE">
+         <font>
+            <Font name="Arial Black" size="16.0" />
+         </font>
+      </JFXButton>
+      <Line endX="352.0" layoutX="959.0" layoutY="625.0" startX="-151.5" />
+      <JFXButton fx:id="btnAllesAnzeigen" layoutX="819.0" layoutY="115.0" onAction="#btnAllesAnzeigenPressed" text="Alles anzeigen" />
+      <Label fx:id="lbl1" layoutX="201.0" layoutY="456.0" text="label1" />
+      <Label fx:id="lbl2" layoutX="395.0" layoutY="455.0" text="label2" />
+      <Label fx:id="lbl3" layoutX="593.0" layoutY="453.0" text="label3" />
+      <Label fx:id="lbl4" layoutX="199.0" layoutY="545.0" text="label4" />
+      <Label fx:id="lbl5" layoutX="396.0" layoutY="544.0" text="label5" />
+      <Label fx:id="lbl6" layoutX="590.0" layoutY="544.0" text="label6" />
    </children>
 </AnchorPane>

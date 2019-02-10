@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="461.0" prefWidth="591.0" style="-fx-background-color: #e0fdff#e0fdff;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.rumait.kundenAnlegen.KundenAnlegenController">
+   <children>
+      <Label layoutX="193.0" layoutY="22.0" text="Neuen Kunden Anlegen">
+         <font>
+            <Font name="Arial Black" size="16.0" />
+         </font>
+      </Label>
+      <JFXTextField fx:id="tfName" layoutX="73.0" layoutY="115.0" promptText="Name" />
+      <JFXTextField fx:id="tfNachname" layoutX="295.0" layoutY="115.0" promptText="Nachname" />
+      <JFXTextField fx:id="tfStrasse" layoutX="73.0" layoutY="184.0" promptText="Strasse" />
+      <JFXTextField fx:id="tfPLZ" layoutX="295.0" layoutY="184.0" promptText="PLZ" />
+      <JFXTextField fx:id="tfOrt" layoutX="73.0" layoutY="245.0" promptText="Ort" />
+      <Label layoutX="39.0" layoutY="72.0" text="Persönliche Informationen:" />
+      <Label layoutX="39.0" layoutY="303.0" text="Bitte die dazugehörige Station auswählen:" />
+      <ComboBox fx:id="comboBox" layoutX="74.0" layoutY="346.0" prefWidth="150.0" promptText="Bitte auswählen" />
+      <JFXButton fx:id="btnAnlegen" layoutX="225.0" layoutY="396.0" onAction="#btnAnlegenPressed" prefHeight="37.0" prefWidth="141.0" style="-fx-background-color: #0096a0#0096a0;" text="Kunden anlegen" textFill="WHITE">
+         <font>
+            <Font name="Arial Bold" size="14.0" />
+         </font>
+      </JFXButton>
+   </children>
+</AnchorPane>

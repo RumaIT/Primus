@@ -2,31 +2,26 @@ package de.rumait.shop;
 
 import java.io.IOException;
 
+
 import java.net.URL;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
-import com.jfoenix.controls.JFXTreeTableView;
-
 import de.rumait.databse.Database;
 import de.rumait.mainLogin.LoginController;
 import de.rumait.mainLogin.LoginMain;
+import de.rumait.popUpWindow.PopUpWindow;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.*;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TreeTableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -180,31 +175,35 @@ public class ShopController implements Initializable {
 //----------------------Methoden für Buttons ---------------------------------------------
 
 	@FXML
-	void btnAlleStationenSuchenPressed(ActionEvent event) throws SQLException {
+	void btnAlleStationenSuchenPressed(ActionEvent event) throws SQLException, IOException {
 
 		stationTable.getItems().clear();
 
 		if (dbZugriff.checkConnection()) {
 			ResultSet abfrage = shopModel.getAllStations(dbZugriff.getStatement());
+			if(abfrage.next()) {
+				abfrage.beforeFirst();
+				while (abfrage.next()) {
 
-			while (abfrage.next()) {
+					list.add(new ShopModel(abfrage.getString(1), abfrage.getString(2), abfrage.getString(3),
+							abfrage.getString(4), abfrage.getString(5), abfrage.getString(6), abfrage.getString(7)));
+				}
 
-				list.add(new ShopModel(abfrage.getString(1), abfrage.getString(2), abfrage.getString(3),
-						abfrage.getString(4), abfrage.getString(5), abfrage.getString(6), abfrage.getString(7)));
+				rowStationsID.setCellValueFactory(new PropertyValueFactory<>("stationID"));
+				rowStationsName.setCellValueFactory(new PropertyValueFactory<>("shopName"));
+				rowBenutzername.setCellValueFactory(new PropertyValueFactory<>("benutzerName"));
+				rowPasswort.setCellValueFactory(new PropertyValueFactory<>("passwort"));
+				rowStrasse.setCellValueFactory(new PropertyValueFactory<>("strasse"));
+				rowPLZ.setCellValueFactory(new PropertyValueFactory<>("plz"));
+				rowOrt.setCellValueFactory(new PropertyValueFactory<>("ort"));
+
+				stationTable.setItems(list);
+			}else {
+				PopUpWindow.getPopUpWindow("Fehler bei der Suche", "Es wurden keine Einträge gefunden");
 			}
-
-			rowStationsID.setCellValueFactory(new PropertyValueFactory<>("stationID"));
-			rowStationsName.setCellValueFactory(new PropertyValueFactory<>("shopName"));
-			rowBenutzername.setCellValueFactory(new PropertyValueFactory<>("benutzerName"));
-			rowPasswort.setCellValueFactory(new PropertyValueFactory<>("passwort"));
-			rowStrasse.setCellValueFactory(new PropertyValueFactory<>("strasse"));
-			rowPLZ.setCellValueFactory(new PropertyValueFactory<>("plz"));
-			rowOrt.setCellValueFactory(new PropertyValueFactory<>("ort"));
-
-			stationTable.setItems(list);
-
+			tfStationIDSuchen.setText("");
+			tfStationNameSuchen.setText("");
 		}
-
 	}
 
 	@FXML
@@ -286,55 +285,68 @@ public class ShopController implements Initializable {
 	}
 
 	@FXML
-	void btnStationSuchenPressed(ActionEvent event) throws SQLException {
+	void btnStationSuchenPressed(ActionEvent event) throws SQLException, IOException {
 
 		stationTable.getItems().clear();
 		String stationID = tfStationIDSuchen.getText();
 		String stationName = tfStationNameSuchen.getText();
 
 		if (dbZugriff.checkConnection()) {
+			
 			ResultSet abfrage = shopModel.getStationsFromSearch(dbZugriff.getStatement(), stationID, stationName);
+			if(abfrage.next()) {
+				abfrage.beforeFirst();
+				while (abfrage.next()) {
+					list.add(new ShopModel(abfrage.getString(1), abfrage.getString(2), abfrage.getString(3),
+							abfrage.getString(4), abfrage.getString(5), abfrage.getString(6), abfrage.getString(7)));
+				}
 
-			while (abfrage.next()) {
-				list.add(new ShopModel(abfrage.getString(1), abfrage.getString(2), abfrage.getString(3),
-						abfrage.getString(4), abfrage.getString(5), abfrage.getString(6), abfrage.getString(7)));
+				rowStationsID.setCellValueFactory(new PropertyValueFactory<>("stationID"));
+				rowStationsName.setCellValueFactory(new PropertyValueFactory<>("shopName"));
+				rowBenutzername.setCellValueFactory(new PropertyValueFactory<>("benutzerName"));
+				rowPasswort.setCellValueFactory(new PropertyValueFactory<>("passwort"));
+				rowStrasse.setCellValueFactory(new PropertyValueFactory<>("strasse"));
+				rowPLZ.setCellValueFactory(new PropertyValueFactory<>("plz"));
+				rowOrt.setCellValueFactory(new PropertyValueFactory<>("ort"));
+
+				stationTable.setItems(list);
+
+				tfStationIDSuchen.setText("");
+				tfStationNameSuchen.setText("");
+			}else {
+				stationTable.setPlaceholder(new Label("Keine Einträge gefunden"));
+				PopUpWindow.getPopUpWindow("Fehler beim Suchen", "Es konnten keine Einträge gefunden werden");
+				System.out.println("Test");
 			}
-
-			rowStationsID.setCellValueFactory(new PropertyValueFactory<>("stationID"));
-			rowStationsName.setCellValueFactory(new PropertyValueFactory<>("shopName"));
-			rowBenutzername.setCellValueFactory(new PropertyValueFactory<>("benutzerName"));
-			rowPasswort.setCellValueFactory(new PropertyValueFactory<>("passwort"));
-			rowStrasse.setCellValueFactory(new PropertyValueFactory<>("strasse"));
-			rowPLZ.setCellValueFactory(new PropertyValueFactory<>("plz"));
-			rowOrt.setCellValueFactory(new PropertyValueFactory<>("ort"));
-
-			stationTable.setItems(list);
-
-			tfStationIDSuchen.setText("");
-			tfStationNameSuchen.setText("");
 		}
+		tfStationIDSuchen.setText("");
+		tfStationNameSuchen.setText("");
 	}
 
 	@FXML
 	void stationTablePressed(MouseEvent event) throws Exception{
+		
+		if(stationTable.getItems().isEmpty() || stationTable.getSelectionModel().getSelectedCells().isEmpty()) {
+			System.out.println("Keine Einträge fenster");
+		}else {
+			
+			String stationID = stationTable.getSelectionModel().getSelectedItem().getStationID();
+			String stationName = stationTable.getSelectionModel().getSelectedItem().getShopName();
+			String benutzername = stationTable.getSelectionModel().getSelectedItem().getBenutzerName();
+			String passwort = stationTable.getSelectionModel().getSelectedItem().getPasswort();
+			String strasse = stationTable.getSelectionModel().getSelectedItem().getStrasse();
+			String plz = stationTable.getSelectionModel().getSelectedItem().getPlz();
+			String ort = stationTable.getSelectionModel().getSelectedItem().getOrt();
 
-		String stationID = stationTable.getSelectionModel().getSelectedItem().getStationID();
-		String stationName = stationTable.getSelectionModel().getSelectedItem().getShopName();
-		String benutzername = stationTable.getSelectionModel().getSelectedItem().getBenutzerName();
-		String passwort = stationTable.getSelectionModel().getSelectedItem().getPasswort();
-		String strasse = stationTable.getSelectionModel().getSelectedItem().getStrasse();
-		String plz = stationTable.getSelectionModel().getSelectedItem().getPlz();
-		String ort = stationTable.getSelectionModel().getSelectedItem().getOrt();
+			lblStationIdShow.setText(stationID);
 
-		lblStationIdShow.setText(stationID);
-
-		tfShopNameChange.setText(stationName);
-		tfBenutzernameChange.setText(benutzername);
-		tfPasswortChange.setText(passwort);
-		tfStrasseChange.setText(strasse);
-		tfPLZChange.setText(plz);
-		tfOrtChange.setText(ort);
-
+			tfShopNameChange.setText(stationName);
+			tfBenutzernameChange.setText(benutzername);
+			tfPasswortChange.setText(passwort);
+			tfStrasseChange.setText(strasse);
+			tfPLZChange.setText(plz);
+			tfOrtChange.setText(ort);
+		}
 	}
 
 //---------initialize: Füllt das Label mit dem Benutzten der sich eingeloggt hat---------
@@ -342,6 +354,7 @@ public class ShopController implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
 		showUserLabel.setText(LoginController.username);
+		stationTable.setPlaceholder(new Label(""));
 	}
 
 	// -------Methode für TableView Liste, Elemente aus der Datenbank holen------
